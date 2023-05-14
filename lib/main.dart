@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //Firebase
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_firebase/screens/product/product_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -18,16 +19,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.orange),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Firebase'),
-        ),
-        body: Center(
-          child: Text('Hola'),
-        ),
-      ),
+      home: productscreen(),
     );
   }
 }
