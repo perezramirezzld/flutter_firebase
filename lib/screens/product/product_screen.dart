@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_firebase/screens/product/addproduct_screen.dart';
+import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
 import 'package:flutter_firebase/service/firebase_service.dart';
 
 class productscreen extends StatefulWidget {
@@ -25,11 +26,33 @@ class _productscreenState extends State<productscreen> {
               return ListView.builder(
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title:
-                        Text(snapshot.data?[index]['name']?.toString() ?? ''),
-                    subtitle: Text(
-                        'Price: \$${snapshot.data?[index]['price']?.toString() ?? ''}'),
+                  return Card(
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+                    child: ListTile(
+                      title:
+                          Text(snapshot.data?[index]['name']?.toString() ?? ''),
+                      subtitle: Text(
+                          'Price: \$${snapshot.data?[index]['price']?.toString() ?? ''}'),
+                      trailing: Icon(
+                        Icons.delete_sweep,
+                        size: 23,
+                      ),
+                      iconColor: Colors.orange,
+                      onTap: () async {
+                        print(snapshot.data?[index]['uid']);
+                        await Navigator.pushNamed(context, "/up", arguments: {
+                          'name': snapshot.data?[index]['name'],
+                          'description': snapshot.data?[index]['description'],
+                          'units': snapshot.data?[index]['units'],
+                          'cost': snapshot.data?[index]['cost'],
+                          'price': snapshot.data?[index]['price'],
+                          'utility': snapshot.data?[index]['utility'],
+                          'uid': snapshot.data?[index]['uid'],
+                        });
+                        setState(() {});
+                      },
+                    ),
                   );
                 },
               );
@@ -50,7 +73,7 @@ class _productscreenState extends State<productscreen> {
             );
             setState(() {});
           },
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.playlist_add),
         ));
   }
 }

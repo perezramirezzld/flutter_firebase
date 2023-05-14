@@ -13,7 +13,6 @@ class addproduct extends StatefulWidget {
 }
 
 final _formKey = GlobalKey<FormState>();
-final _idController = TextEditingController();
 final _nameController = TextEditingController();
 final _descriptionController = TextEditingController();
 final _unitsController = TextEditingController();
@@ -23,7 +22,6 @@ final _utilityController = TextEditingController();
 
 @override
 void dispose() {
-  _idController.dispose();
   _nameController.dispose();
   _descriptionController.dispose();
   _unitsController.dispose();
@@ -46,16 +44,6 @@ class _addproductState extends State<addproduct> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
-                controller: _idController,
-                decoration: const InputDecoration(labelText: 'ID'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an ID';
-                  }
-                  return null;
-                },
-              ),
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(labelText: 'Name'),
@@ -140,7 +128,6 @@ class _addproductState extends State<addproduct> {
                   if (_formKey.currentState!.validate()) {
                     // Save the form data
                     final product = {
-                      'id': _idController.text,
                       'name': _nameController.text,
                       'description': _descriptionController.text,
                       'units': int.parse(_unitsController.text),
@@ -149,7 +136,6 @@ class _addproductState extends State<addproduct> {
                       'utility': double.parse(_utilityController.text),
                     };
                     await addProduct(
-                            _idController.text,
                             _nameController.text,
                             _descriptionController.text,
                             int.parse(_unitsController.text),
