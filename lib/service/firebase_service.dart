@@ -47,3 +47,7 @@ Future<void> updateProduct(String uid, String nname, String ndescription,
     'utility': nutility,
   });
 }
+
+Future<void> deleteProduct(String uid) async {
+  await db.collection('product').doc(uid).delete();
+}
