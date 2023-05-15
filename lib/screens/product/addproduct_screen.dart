@@ -20,16 +20,6 @@ final _costController = TextEditingController();
 final _priceController = TextEditingController();
 final _utilityController = TextEditingController();
 
-@override
-void dispose() {
-  _nameController.dispose();
-  _descriptionController.dispose();
-  _unitsController.dispose();
-  _costController.dispose();
-  _priceController.dispose();
-  _utilityController.dispose();
-}
-
 class _addproductState extends State<addproduct> {
   @override
   Widget build(BuildContext context) {
@@ -143,6 +133,12 @@ class _addproductState extends State<addproduct> {
                             double.parse(_priceController.text),
                             double.parse(_utilityController.text))
                         .then((_) => {
+                              _nameController.clear(),
+                              _descriptionController.clear(),
+                              _unitsController.clear(),
+                              _costController.clear(),
+                              _priceController.clear(),
+                              _utilityController.clear(),
                               Navigator.pop(context),
                             });
                   }
