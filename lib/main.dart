@@ -5,6 +5,7 @@ import 'package:flutter_firebase/screens/general/login_screen.dart';
 import 'package:flutter_firebase/screens/menu_screen.dart';
 import 'package:flutter_firebase/screens/product/product_screen.dart';
 import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
+import 'package:flutter_firebase/screens/user/updateuser_screen.dart';
 import 'package:flutter_firebase/screens/user/user_screen.dart';
 import 'firebase_options.dart';
 
@@ -26,9 +27,16 @@ class MyApp extends StatelessWidget {
       routes: {
         '/menu': (context) => menuscreen(),
         '/updateProduct': (context) => const upproduct(),
+<<<<<<< HEAD
         '/login': (context) => login_Screen(),
         '/users': (context) => user_screen(),
         '/products': (context) => productscreen(),
+=======
+        '/login':(context) =>  login_Screen(),
+        '/users':(context) => user_screen(),
+        '/updateUser':(context) => update_user(),
+        '/products':(context) =>  productscreen(),
+>>>>>>> master
       },
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
