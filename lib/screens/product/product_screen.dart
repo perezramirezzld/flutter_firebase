@@ -16,8 +16,9 @@ class _productscreenState extends State<productscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: const Color(0xFFF8F8EC),
         appBar: AppBar(
-          backgroundColor: Colors.orange,
+          backgroundColor: const Color(0XFF9d870c),
         ),
         body: FutureBuilder(
           future: getProduct(),
@@ -56,7 +57,7 @@ class _productscreenState extends State<productscreen> {
                         colorFilter: ColorFilter.mode(
                             Colors.red.withOpacity(0.8), BlendMode.dstATop),
                         child: Container(
-                          color: Colors.orange,
+                          color: Color(0XFF9d870c),
                         ),
                       ),
                     ),
@@ -72,7 +73,7 @@ class _productscreenState extends State<productscreen> {
                           Icons.delete_sweep,
                           size: 23,
                         ),
-                        iconColor: Colors.orange,
+                        iconColor: Color(0XFF9d870c),
                         onTap: () async {
                           print(snapshot.data?[index]['uid']);
                           await Navigator.pushNamed(context, "/updateProduct", arguments: {
@@ -112,6 +113,7 @@ class _productscreenState extends State<productscreen> {
             });
           },
           child: const Icon(Icons.playlist_add),
+          backgroundColor: const Color(0XFF9d870c),
         ));
   }
 }
