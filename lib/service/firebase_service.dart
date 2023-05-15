@@ -51,6 +51,7 @@ Future<void> updateProduct(String uid, String nname, String ndescription,
 Future<void> deleteProduct(String uid) async {
   await db.collection('product').doc(uid).delete();
 }
+
 //aqui abajo va lo de usuarios
 
 Future<List> getUser() async {
@@ -75,8 +76,8 @@ Future<List> getUser() async {
   return users;
 }
 
-Future<void> addUser(String name, String lastname, int age, String gender, 
-String email, String password) async {
+Future<void> addUser(String name, String lastname, int age, String gender,
+    String email, String password) async {
   await db.collection("user").add({
     'name': name,
     'lastname': lastname,
@@ -87,8 +88,8 @@ String email, String password) async {
   });
 }
 
-Future<void> updateUser(String uid, String nname, String nlastname,
-    int nage, String ngender, String nemail, String npassword) async {
+Future<void> updateUser(String uid, String nname, String nlastname, int nage,
+    String ngender, String nemail, String npassword) async {
   await db.collection('user').doc(uid).set({
     'name': nname,
     'lastname': nlastname,
@@ -102,4 +103,3 @@ Future<void> updateUser(String uid, String nname, String nlastname,
 Future<void> deleteUser(String uid) async {
   await db.collection('user').doc(uid).delete();
 }
-
