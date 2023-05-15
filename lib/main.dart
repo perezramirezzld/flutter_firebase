@@ -26,17 +26,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/menu': (context) => menuscreen(),
-        '/updateProduct': (context) => const upproduct(),
-<<<<<<< HEAD
         '/login': (context) => login_Screen(),
         '/users': (context) => user_screen(),
+        '/updateUser': (context) => update_user(),
         '/products': (context) => productscreen(),
-=======
-        '/login':(context) =>  login_Screen(),
-        '/users':(context) => user_screen(),
-        '/updateUser':(context) => update_user(),
-        '/products':(context) =>  productscreen(),
->>>>>>> master
       },
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
