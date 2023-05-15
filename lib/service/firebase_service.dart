@@ -51,3 +51,55 @@ Future<void> updateProduct(String uid, String nname, String ndescription,
 Future<void> deleteProduct(String uid) async {
   await db.collection('product').doc(uid).delete();
 }
+//aqui abajo va lo de usuarios
+
+Future<List> getUser() async {
+  List users = [];
+  QuerySnapshot queryproduct = await db.collection('user').get();
+  for (var doc in queryproduct.docs) {
+    final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    final user = {
+      // 'uid' is the document id
+      'name': data['name'],
+      'lastname': data['lastname'],
+      'age': data['age'],
+      'gender': data['gender'],
+      'email': data['email'],
+      'password': data['password'],
+      'uid': doc.id,
+    };
+    users.add(user);
+  }
+
+  await Future.delayed(const Duration(seconds: 1));
+  return users;
+}
+
+Future<void> addUser(String name, String lastname, int age, String gender, 
+String email, String password) async {
+  await db.collection("user").add({
+    'name': name,
+    'lastname': lastname,
+    'age': age,
+    'gender': gender,
+    'email': email,
+    'password': password,
+  });
+}
+
+Future<void> updateUser(String uid, String nname, String nlastname,
+    int nage, String ngender, String nemail, String npassword) async {
+  await db.collection('product').doc(uid).set({
+    'name': nname,
+    'lastname': nlastname,
+    'age': nage,
+    'gender': ngender,
+    'email': nemail,
+    'password': npassword,
+  });
+}
+
+Future<void> deleteUser(String uid) async {
+  await db.collection('user').doc(uid).delete();
+}
+

@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_firebase/screens/product/addproduct_screen.dart';
-import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
+import 'package:flutter_firebase/screens/user/adduser_screen.dart';
 import 'package:flutter_firebase/service/firebase_service.dart';
 
-class productscreen extends StatefulWidget {
-  const productscreen({super.key});
+class user_screen extends StatefulWidget {
+  user_screen({Key? key}) : super(key: key);
 
   @override
-  State<productscreen> createState() => _productscreenState();
+  State<user_screen> createState() => _user_screenState();
 }
 
-class _productscreenState extends State<productscreen> {
+class _user_screenState extends State<user_screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          title: const Text('User Screen'),
           backgroundColor: Colors.orange,
         ),
         body: FutureBuilder(
-          future: getProduct(),
+          future: getUser(),
           builder: ((context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
                   return Dismissible(
-                    onDismissed: (direction) async => deleteProduct(
+                    onDismissed: (direction) async => deleteUser(
                         await snapshot.data?[index]['uid']?.toString() ?? ''),
                     confirmDismiss: ((direction) => showDialog(
                           context: context,
@@ -67,7 +65,7 @@ class _productscreenState extends State<productscreen> {
                         title: Text(
                             snapshot.data?[index]['name']?.toString() ?? ''),
                         subtitle: Text(
-                            'Units: ${snapshot.data?[index]['units']?.toString() ?? ''}'),
+                            'Age: ${snapshot.data?[index]['age']?.toString() ?? ''}'),
                         trailing: Icon(
                           Icons.delete_sweep,
                           size: 23,
@@ -75,15 +73,16 @@ class _productscreenState extends State<productscreen> {
                         iconColor: Colors.orange,
                         onTap: () async {
                           print(snapshot.data?[index]['uid']);
-                          await Navigator.pushNamed(context, "/updateProduct", arguments: {
-                            'name': snapshot.data?[index]['name'],
-                            'description': snapshot.data?[index]['description'],
-                            'units': snapshot.data?[index]['units'],
-                            'cost': snapshot.data?[index]['cost'],
-                            'price': snapshot.data?[index]['price'],
-                            'utility': snapshot.data?[index]['utility'],
-                            'uid': snapshot.data?[index]['uid'],
-                          });
+                          await Navigator.pushNamed(context, '/user_detail',
+                              arguments: {
+                                'name': snapshot.data?[index]['name'],
+                                'lastname': snapshot.data?[index]['lastname'],
+                                'age': snapshot.data?[index]['age'],
+                                'gender': snapshot.data?[index]['gender'],
+                                'email': snapshot.data?[index]['email'],
+                                'password': snapshot.data?[index]['password'],
+                                'uid': snapshot.data?[index]['uid'],
+                              });
                           setState(() {});
                         },
                       ),
@@ -103,12 +102,12 @@ class _productscreenState extends State<productscreen> {
             await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => addproduct(),
+                builder: (context) => adduser(),
               ),
             );
             setState(() {
               // ignore: unnecessary_statements
-              getProduct();
+              getUser();
             });
           },
           child: const Icon(Icons.playlist_add),
