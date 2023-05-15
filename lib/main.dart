@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_firebase/screens/general/login_screen.dart';
 import 'package:flutter_firebase/screens/product/product_screen.dart';
 import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
+import 'package:flutter_firebase/screens/user/updateuser_screen.dart';
 import 'package:flutter_firebase/screens/user/user_screen.dart';
 import 'firebase_options.dart';
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         '/updateProduct': (context) => const upproduct(),
         '/login':(context) =>  login_Screen(),
         '/users':(context) => user_screen(),
+        '/updateUser':(context) => update_user(),
         '/products':(context) =>  productscreen(),
       },
       debugShowCheckedModeBanner: false,

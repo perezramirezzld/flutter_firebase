@@ -89,7 +89,7 @@ String email, String password) async {
 
 Future<void> updateUser(String uid, String nname, String nlastname,
     int nage, String ngender, String nemail, String npassword) async {
-  await db.collection('product').doc(uid).set({
+  await db.collection('user').doc(uid).set({
     'name': nname,
     'lastname': nlastname,
     'age': nage,

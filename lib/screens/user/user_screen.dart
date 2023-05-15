@@ -73,7 +73,7 @@ class _user_screenState extends State<user_screen> {
                         iconColor: Colors.orange,
                         onTap: () async {
                           print(snapshot.data?[index]['uid']);
-                          await Navigator.pushNamed(context, '/user_detail',
+                          await Navigator.pushNamed(context, '/updateUser',
                               arguments: {
                                 'name': snapshot.data?[index]['name'],
                                 'lastname': snapshot.data?[index]['lastname'],
