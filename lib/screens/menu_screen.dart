@@ -11,10 +11,7 @@ class menuscreen extends StatefulWidget {
   State<menuscreen> createState() => _menuscreenState();
 }
 
-final List<String> items = [
-  'Register',
-  'Products',
-];
+final List<String> items = ['Register', 'Products', 'Sales'];
 
 class _menuscreenState extends State<menuscreen> {
   @override
@@ -33,20 +30,13 @@ class _menuscreenState extends State<menuscreen> {
               // Navegar a la página correspondiente
               switch (index) {
                 case 0:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => user_screen(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/users');
                   break;
                 case 1:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => productscreen(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/products');
+                  break;
+                case 2:
+                  Navigator.pushNamed(context, '/sales');
                   break;
               }
             },

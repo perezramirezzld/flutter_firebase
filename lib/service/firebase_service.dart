@@ -103,3 +103,54 @@ Future<void> updateUser(String uid, String nname, String nlastname, int nage,
 Future<void> deleteUser(String uid) async {
   await db.collection('user').doc(uid).delete();
 }
+
+//aqui abajo va lo de ventas
+Future<List> getSale() async {
+  List product = [];
+  QuerySnapshot queryproduct = await db.collection('sale').get();
+  for (var doc in queryproduct.docs) {
+    final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    final producto = {
+      // 'uid' is the document id
+      'name': data['name'],
+      'IdProduct': data['IdProduct'],
+      'IdClient': data['IdClient'],
+      'pieces': data['pieces'],
+      'subtotal': data['subtotal'],
+      'total': data['total'],
+      'uid': doc.id,
+    };
+    product.add(producto);
+  }
+
+  await Future.delayed(const Duration(seconds: 1));
+  return product;
+}
+
+Future<void> addSale(String name, String idProduct, String idClient, int pieces,
+    double subtotal, double total) async {
+  await db.collection("sale").add({
+    'name': name,
+    'IdProduct': idProduct,
+    'IdClient': idClient,
+    'pieces': pieces,
+    'subtotal': subtotal,
+    'total': total,
+  });
+}
+
+Future<void> updateSale(String uid, String name, String idProduct,
+    String idClient, int pieces, double subtotal, double total) async {
+  await db.collection('sale').doc(uid).set({
+    'name': name,
+    'IdProduct': idProduct,
+    'IdClient': idClient,
+    'pieces': pieces,
+    'subtotal': subtotal,
+    'total': total,
+  });
+}
+
+Future<void> deleteSale(String uid) async {
+  await db.collection('sale').doc(uid).delete();
+}
