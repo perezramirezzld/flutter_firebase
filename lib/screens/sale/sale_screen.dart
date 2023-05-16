@@ -30,7 +30,9 @@ class _salescreenState extends State<salescreen> {
                   builder: (context) => addsalescreen(),
                 ),
               );
-              setState(() {});
+              setState(() {
+                getSale();
+              });
             },
           )
         ],

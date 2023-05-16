@@ -157,7 +157,7 @@ class _addsalescreenState extends State<addsalescreen> {
                             Text('${_nameProduct}'),
                             const SizedBox(height: 8),
                             Text(
-                              'IdSale: ${_idProduct}',
+                              'Id: ${_idProduct}',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                             Text(
