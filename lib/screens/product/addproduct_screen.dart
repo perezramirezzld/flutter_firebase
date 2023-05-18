@@ -128,7 +128,7 @@ class _addproductState extends State<addproduct> {
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
+                  if (_formKey.currentState!.validate()) {  
                     // Save the form data
                     final product = Product(
                       name: _nameController.text,
@@ -138,8 +138,10 @@ class _addproductState extends State<addproduct> {
                       price: double.parse(_priceController.text),
                       utility: double.parse(_utilityController.text),
                     );
-                      controller.addProduct(product);
-                      Navigator.pop(context);
+                      await controller.addProduct(product).then((_) => Navigator.pop(context));
+                      setState(() {});
+                      //controller.addProduct(product);
+                      //Navigator.pop(context);
                   }
                 },
                 child: Text('Save'),

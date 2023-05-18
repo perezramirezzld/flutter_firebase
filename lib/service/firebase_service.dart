@@ -90,7 +90,7 @@ Future<List<Purchase>> getPurchases() async {
 
 ///////////////////////////// ADD //////////////////////////////////////
 
-Future<void> addProduct(Product product) async {
+Future<void> postProduct(Product product) async {
   await db.collection("product").add({
     'name': product.name,
     'description': product.description,
@@ -101,7 +101,7 @@ Future<void> addProduct(Product product) async {
   });
 }
 
-Future<void> addSale(Sale sale) async {
+Future<void> postSale(Sale sale) async {
   await db.collection('sale').add({
     'name': sale.name,
     'IdProduct': sale.idProduct,
@@ -112,7 +112,7 @@ Future<void> addSale(Sale sale) async {
   });
 }
 
-Future<void> addUser(User user) async {
+Future<void> postUser(User user) async {
   await db.collection("user").add({
     'name': user.name,
     'lastname': user.lastname,
@@ -123,7 +123,7 @@ Future<void> addUser(User user) async {
   });
 }
 
-Future <void> addPurchase(Purchase purchase) async {
+Future <void> postPurchase(Purchase purchase) async {
   await db.collection("purchase").add({
     'name': purchase.name,
     'pieces': purchase.pieces,

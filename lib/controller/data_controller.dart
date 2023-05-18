@@ -39,21 +39,22 @@ class DataController extends GetxController{
   }
 //////////////////////ADD//////////////////////
   Future<void> addSale(Sale sale) async{
-    await addSale(sale);
+    await postSale(sale);
     await getAllSales();
   }
 
   Future<void> addProduct(Product product) async{
-    await addProduct(product);
+    await postProduct(product);
     await getAllProducts();
   }
   Future<void> addUser(User user) async{
-    await addUser(user);
+    await postUser(user);
     await getAllUsers();
   }
 
   Future<void> addPurchase(Purchase purchase) async{
-    await addPurchase(purchase);
+    await postPurchase(purchase);
+    await getAllPurchases();
   }
   ////////////////////////UPDATE//////////////////////
   Future<void> updateSale(Sale sale) async{
