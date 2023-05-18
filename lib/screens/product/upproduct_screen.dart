@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_firebase/models/product_model.dart';
+import 'package:get/get.dart';
 
+import '../../controller/data_controller.dart';
 import '../../service/firebase_service.dart';
 
 class upproduct extends StatefulWidget {
@@ -21,6 +24,17 @@ final _priceController = TextEditingController();
 final _utilityController = TextEditingController();
 
 class _upproductState extends State<upproduct> {
+
+  final controller = Get.put(DataController());
+  List<Product> productModel = [];
+
+  @override
+  void initState() {
+    productModel.addAll(controller.products);
+    super.initState();
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
@@ -126,25 +140,16 @@ class _upproductState extends State<upproduct> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // Save the form data
-                    final product = {
-                      'name': _nameController.text,
-                      'description': _descriptionController.text,
-                      'units': int.parse(_unitsController.text),
-                      'cost': double.parse(_costController.text),
-                      'price': double.parse(_priceController.text),
-                      'utility': double.parse(_utilityController.text),
-                      'uid': uid.text,
-                    };
-                    print(uid.text);
-                    await updateProduct(
-                            uid.text,
-                            _nameController.text,
-                            _descriptionController.text,
-                            int.parse(_unitsController.text),
-                            double.parse(_costController.text),
-                            double.parse(_priceController.text),
-                            double.parse(_utilityController.text))
-                        .then((_) => Navigator.pop(context));
+                    final product = Product(
+                      name: _nameController.text, 
+                      description: _descriptionController.text, 
+                      units: int.parse(_unitsController.text),
+                      cost: double.parse(_costController.text), 
+                      price: double.parse(_priceController.text), 
+                      utility: double.parse(_utilityController.text)
+                      );
+                      controller.updateProduct(product);
+                      
                   }
                 },
                 child: Text('Save'),

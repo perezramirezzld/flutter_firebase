@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_firebase/screens/product/product_screen.dart';
+import 'package:get/get.dart';
 
+import '../../controller/data_controller.dart';
+import '../../models/product_model.dart';
 import '../../service/firebase_service.dart';
 
 class addproduct extends StatefulWidget {
@@ -21,6 +24,16 @@ final _priceController = TextEditingController();
 final _utilityController = TextEditingController();
 
 class _addproductState extends State<addproduct> {
+  final controller = Get.put(DataController());
+  List<Product> productModel = [];
+  @override
+  void initState() {
+    productModel.addAll(controller.products);
+    super.initState();
+    
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,30 +130,16 @@ class _addproductState extends State<addproduct> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // Save the form data
-                    final product = {
-                      'name': _nameController.text,
-                      'description': _descriptionController.text,
-                      'units': int.parse(_unitsController.text),
-                      'cost': double.parse(_costController.text),
-                      'price': double.parse(_priceController.text),
-                      'utility': double.parse(_utilityController.text),
-                    };
-                    await addProduct(
-                            _nameController.text,
-                            _descriptionController.text,
-                            int.parse(_unitsController.text),
-                            double.parse(_costController.text),
-                            double.parse(_priceController.text),
-                            double.parse(_utilityController.text))
-                        .then((_) => {
-                              _nameController.clear(),
-                              _descriptionController.clear(),
-                              _unitsController.clear(),
-                              _costController.clear(),
-                              _priceController.clear(),
-                              _utilityController.clear(),
-                              Navigator.pop(context),
-                            });
+                    final product = Product(
+                      name: _nameController.text,
+                      description: _descriptionController.text,
+                      units: int.parse(_unitsController.text),
+                      cost: double.parse(_costController.text),
+                      price: double.parse(_priceController.text),
+                      utility: double.parse(_utilityController.text),
+                    );
+                      controller.addProduct(product);
+                      Navigator.pop(context);
                   }
                 },
                 child: Text('Save'),
