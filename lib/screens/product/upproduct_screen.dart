@@ -24,27 +24,31 @@ final _priceController = TextEditingController();
 final _utilityController = TextEditingController();
 
 class _upproductState extends State<upproduct> {
-
   final controller = Get.put(DataController());
-  List<Product> productModel = [];
-
   @override
   void initState() {
-    productModel.addAll(controller.products);
     super.initState();
-    
+  }
+
+  Future<void> initData() async {
+    await controller.getAllProducts();
+    Future.delayed(const Duration(milliseconds: 300), () {
+      setState(() {});
+      Navigator.of(context).pushNamed('/products');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
-    uid.text = arguments['uid'];
-    _nameController.text = arguments['name'];
-    _descriptionController.text = arguments['description'];
-    _unitsController.text = arguments['units'].toString();
-    _costController.text = arguments['cost'].toString();
-    _priceController.text = arguments['price'].toString();
-    _utilityController.text = arguments['utility'].toString();
+    final Map<dynamic, dynamic> arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
+    uid.text = arguments['uid'] as String? ?? '';
+    _nameController.text = arguments['name'] as String? ?? '';
+    _descriptionController.text = arguments['description'] as String? ?? '';
+    _unitsController.text = arguments['units']?.toString() ?? '';
+    _costController.text = arguments['cost']?.toString() ?? '';
+    _priceController.text = arguments['price']?.toString() ?? '';
+    _utilityController.text = arguments['utility']?.toString() ?? '';
 
     return Scaffold(
       appBar: AppBar(
@@ -140,16 +144,18 @@ class _upproductState extends State<upproduct> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // Save the form data
-                    final product = Product(
-                      name: _nameController.text, 
-                      description: _descriptionController.text, 
+                    Product product = Product(
+                      uid: uid.text,
+                      name: _nameController.text,
+                      description: _descriptionController.text,
                       units: int.parse(_unitsController.text),
-                      cost: double.parse(_costController.text), 
-                      price: double.parse(_priceController.text), 
-                      utility: double.parse(_utilityController.text)
-                      );
-                      controller.updateProduct(product);
-                      
+                      cost: double.parse(_costController.text),
+                      price: double.parse(_priceController.text),
+                      utility: double.parse(_utilityController.text),
+                    );
+                    await controller.updateProduct(product);
+                    print('uid: ${uid.text}');
+                    //initData();
                   }
                 },
                 child: Text('Save'),

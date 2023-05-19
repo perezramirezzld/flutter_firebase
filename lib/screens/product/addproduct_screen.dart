@@ -25,24 +25,22 @@ final _utilityController = TextEditingController();
 
 class _addproductState extends State<addproduct> {
   final controller = Get.put(DataController());
-  List<Product> productModel = [];
   @override
   void initState() {
-    //controller.getAllProducts();
-    productModel.addAll(controller.products);
+    clear();
     super.initState();
   }
 
   Future<void> initData() async {
-    //await controller.getAllSales();
     await controller.getAllProducts();
     Future.delayed(const Duration(milliseconds: 300), () {
+      setState(() {});
       Navigator.of(context).pushNamed('/products');
     });
   }
 
   Future<void> agregar() async {
-    final products = Product(
+    Product products = Product(
       name: _nameController.text,
       description: _descriptionController.text,
       units: int.parse(_unitsController.text),
@@ -51,6 +49,15 @@ class _addproductState extends State<addproduct> {
       utility: double.parse(_utilityController.text),
     );
     controller.addProduct(products);
+  }
+
+  void clear() {
+    _nameController.clear();
+    _descriptionController.clear();
+    _unitsController.clear();
+    _costController.clear();
+    _priceController.clear();
+    _utilityController.clear();
   }
 
   @override

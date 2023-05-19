@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         '/menu': (context) => menuscreen(),
         '/products': (context) => productscreen(),
         '/addProduct': (context) => addproduct(),
-        '/updateProduct': (context) => upproduct(),
+        '/updateProduct': (context) => const upproduct(),
         // '/users': (context) => user_screen(),
         // '/updateUser': (context) => update_user(),
         // '/sales': (context) => const salescreen(),

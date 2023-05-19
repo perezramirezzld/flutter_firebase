@@ -12,7 +12,6 @@ FirebaseFirestore db = FirebaseFirestore.instance;
 Future<List<Product>> getProducts() async {
   List<Product> productModel = [];
   QuerySnapshot queryproduct = await db.collection('product').get();
-  print('Cantidad de productos: ${queryproduct.docs.length}');
   for (var doc in queryproduct.docs) {
     productModel.add(
       Product(
@@ -124,8 +123,8 @@ Future<void> postPurchase(Purchase purchase) async {
 
 ///////////////////////////// UPDATE //////////////////////////////////////
 
-Future<void> updateProduct(Product product) async {
-  await db.collection('product').doc(product.uid).set({
+void updateProduct(Product product) {
+  db.collection('product').doc(product.uid).set({
     'name': product.name,
     'description': product.description,
     'units': product.units,

@@ -29,9 +29,6 @@ class _productscreenState extends State<productscreen> {
 
   Future<void> initData() async {
     await controller.getAllProducts();
-    setState(() {
-      dispose();
-    });
   }
 
   @override
