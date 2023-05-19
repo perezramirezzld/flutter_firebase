@@ -24,6 +24,14 @@ class _productscreenState extends State<productscreen> {
     //controller.getAllProducts();
     productModel.addAll(controller.products);
     super.initState();
+    initData();
+  }
+
+  Future<void> initData() async {
+    await controller.getAllProducts();
+    setState(() {
+      dispose();
+    });
   }
 
   @override
@@ -37,8 +45,8 @@ class _productscreenState extends State<productscreen> {
           itemCount: productModel.length,
           itemBuilder: (BuildContext context, int index) {
             return Dismissible(
-              onDismissed: (direction) async =>
-                  deleteProduct(productModel[index].uid?.toString() ?? ''),
+              onDismissed: (direction) async => await deleteProduct(
+                  productModel[index].uid?.toString() ?? ''),
               confirmDismiss: ((direction) => showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
@@ -92,10 +100,9 @@ class _productscreenState extends State<productscreen> {
             );
           },
         ),
-        
         floatingActionButton: FloatingActionButton(
-          onPressed:() {
-            Navigator.of(context).pushNamed('/addProduct');
+          onPressed: () {
+            Navigator.pushNamed(context, "/addProduct");
           },
           child: const Icon(Icons.playlist_add),
           backgroundColor: const Color(0XFF9d870c),

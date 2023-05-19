@@ -28,11 +28,30 @@ class _addproductState extends State<addproduct> {
   List<Product> productModel = [];
   @override
   void initState() {
+    //controller.getAllProducts();
     productModel.addAll(controller.products);
     super.initState();
-    
   }
 
+  Future<void> initData() async {
+    //await controller.getAllSales();
+    await controller.getAllProducts();
+    Future.delayed(const Duration(milliseconds: 300), () {
+      Navigator.of(context).pushNamed('/products');
+    });
+  }
+
+  Future<void> agregar() async {
+    final products = Product(
+      name: _nameController.text,
+      description: _descriptionController.text,
+      units: int.parse(_unitsController.text),
+      cost: double.parse(_costController.text),
+      price: double.parse(_priceController.text),
+      utility: double.parse(_utilityController.text),
+    );
+    controller.addProduct(products);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,20 +147,9 @@ class _addproductState extends State<addproduct> {
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
-                  if (_formKey.currentState!.validate()) {  
-                    // Save the form data
-                    final product = Product(
-                      name: _nameController.text,
-                      description: _descriptionController.text,
-                      units: int.parse(_unitsController.text),
-                      cost: double.parse(_costController.text),
-                      price: double.parse(_priceController.text),
-                      utility: double.parse(_utilityController.text),
-                    );
-                      await controller.addProduct(product).then((_) => Navigator.pop(context));
-                      setState(() {});
-                      //controller.addProduct(product);
-                      //Navigator.pop(context);
+                  if (_formKey.currentState!.validate()) {
+                    agregar();
+                    initData();
                   }
                 },
                 child: Text('Save'),

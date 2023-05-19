@@ -5,7 +5,6 @@ import '../models/product_model.dart';
 import '../models/user_model.dart';
 import '../models/purchase_model.dart';
 
-
 FirebaseFirestore db = FirebaseFirestore.instance;
 
 ////////////////////// GET //////////////////////
@@ -35,55 +34,48 @@ Future<List<Product>> getProducts() async {
 
 Future<List<Sale>> getSales() async {
   // List product = [];
-  List <Sale> salesModel =[];
+  List<Sale> salesModel = [];
   QuerySnapshot queryproduct = await db.collection('sale').get();
   for (var doc in queryproduct.docs) {
-    salesModel.add(
-      Sale(
-        name: doc['name'],
-        idProduct: doc['IdProduct'],
-        idClient: doc['IdClient'],
-        pieces: doc['pieces'],
-        subtotal: doc['subtotal'],
-        total: doc['total'],
-        uid: doc.id,
-
-      )
-    );
+    salesModel.add(Sale(
+      name: doc['name'],
+      idProduct: doc['IdProduct'],
+      idClient: doc['IdClient'],
+      pieces: doc['pieces'],
+      subtotal: doc['subtotal'],
+      total: doc['total'],
+      uid: doc.id,
+    ));
   }
   return salesModel;
 }
 
 Future<List<User>> getUsers() async {
-  List <User> usersModel = [];
+  List<User> usersModel = [];
   QuerySnapshot queryproduct = await db.collection('user').get();
   for (var doc in queryproduct.docs) {
-    usersModel.add(
-      User(
-      name: doc['name'], 
-      lastname: doc['lastname'], 
-      age: doc['age'], 
-      gender: doc['gender'], 
-      email: doc['email'], 
-      password: doc['password'], 
-      uid: doc.id,)
-    );
-
+    usersModel.add(User(
+      name: doc['name'],
+      lastname: doc['lastname'],
+      age: doc['age'],
+      gender: doc['gender'],
+      email: doc['email'],
+      password: doc['password'],
+      uid: doc.id,
+    ));
   }
   return usersModel;
 }
 
 Future<List<Purchase>> getPurchases() async {
-  List <Purchase> purchasesModel = [];
+  List<Purchase> purchasesModel = [];
   QuerySnapshot queryproduct = await db.collection('purchase').get();
   for (var doc in queryproduct.docs) {
-    purchasesModel.add(
-      Purchase(
-        name: doc['name'],
-        pieces: doc['pieces'],
-        uid: doc.id,
-      )
-    );
+    purchasesModel.add(Purchase(
+      name: doc['name'],
+      pieces: doc['pieces'],
+      uid: doc.id,
+    ));
   }
   return purchasesModel;
 }
@@ -123,7 +115,7 @@ Future<void> postUser(User user) async {
   });
 }
 
-Future <void> postPurchase(Purchase purchase) async {
+Future<void> postPurchase(Purchase purchase) async {
   await db.collection("purchase").add({
     'name': purchase.name,
     'pieces': purchase.pieces,

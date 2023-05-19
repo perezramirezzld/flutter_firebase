@@ -7,7 +7,7 @@ import 'package:flutter_firebase/screens/menu_screen.dart';
 import 'package:flutter_firebase/screens/product/product_screen.dart';
 import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
 import 'package:flutter_firebase/screens/sale/sale_screen.dart';
-import 'package:flutter_firebase/screens/sale/splash.dart';
+import 'package:flutter_firebase/screens/product/splash.dart';
 import 'package:flutter_firebase/screens/sale/upSale_screen.dart';
 import 'package:flutter_firebase/screens/user/updateuser_screen.dart';
 import 'package:flutter_firebase/screens/user/user_screen.dart';
@@ -34,13 +34,13 @@ class MyApp extends StatelessWidget {
         '/login': (context) => login_Screen(),
         '/menu': (context) => menuscreen(),
         '/products': (context) => productscreen(),
-        '/addProduct': (context) => const addproduct(),
-        '/updateProduct': (context) => const upproduct(),
+        '/addProduct': (context) => addproduct(),
+        '/updateProduct': (context) => upproduct(),
         // '/users': (context) => user_screen(),
         // '/updateUser': (context) => update_user(),
         // '/sales': (context) => const salescreen(),
         // '/upsale': (context) => const upsalescreen(),
-        '/splash':(context) =>  SplashScreen(),
+        '/splash': (context) => SplashScreen(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
