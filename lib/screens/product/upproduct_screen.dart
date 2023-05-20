@@ -30,6 +30,18 @@ class _upproductState extends State<upproduct> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    uid.dispose();
+    _nameController.dispose();
+    _descriptionController.dispose();
+    _unitsController.dispose();
+    _costController.dispose();
+    _priceController.dispose();
+    _utilityController.dispose();
+    super.dispose();
+  }
+
   Future<void> initData() async {
     await controller.getAllProducts();
     Future.delayed(const Duration(milliseconds: 300), () {
@@ -42,13 +54,13 @@ class _upproductState extends State<upproduct> {
   Widget build(BuildContext context) {
     final Map<dynamic, dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
-    uid.text = arguments['uid'] as String? ?? '';
-    _nameController.text = arguments['name'] as String? ?? '';
-    _descriptionController.text = arguments['description'] as String? ?? '';
-    _unitsController.text = arguments['units']?.toString() ?? '';
-    _costController.text = arguments['cost']?.toString() ?? '';
-    _priceController.text = arguments['price']?.toString() ?? '';
-    _utilityController.text = arguments['utility']?.toString() ?? '';
+    uid.text = arguments['uid'];
+    _nameController.text = arguments['name'];
+    _descriptionController.text = arguments['description'];
+    _unitsController.text = arguments['units'].toString();
+    _costController.text = arguments['cost'].toString();
+    _priceController.text = arguments['price'].toString();
+    _utilityController.text = arguments['utility'].toString();
 
     return Scaffold(
       appBar: AppBar(
@@ -144,7 +156,16 @@ class _upproductState extends State<upproduct> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // Save the form data
-                    Product product = Product(
+                    final product = {
+                      'uid': uid.text,
+                      'name': _nameController.text,
+                      'description': _descriptionController.text,
+                      'units': int.parse(_unitsController.text),
+                      'cost': double.parse(_costController.text),
+                      'price': double.parse(_priceController.text),
+                      'utility': double.parse(_utilityController.text),
+                    };
+                    Products products = Products(
                       uid: uid.text,
                       name: _nameController.text,
                       description: _descriptionController.text,
@@ -153,7 +174,9 @@ class _upproductState extends State<upproduct> {
                       price: double.parse(_priceController.text),
                       utility: double.parse(_utilityController.text),
                     );
-                    await controller.updateProduct(product);
+
+                    controller.updateProduct(products);
+                    await controller.getAllProducts();
                     print('uid: ${uid.text}');
                     //initData();
                   }

@@ -17,3 +17,23 @@ class Product {
     required this.utility,
   });
 }
+
+class Products {
+  String uid;
+  String name;
+  String description;
+  int units;
+  double cost;
+  double price;
+  double utility;
+
+  Products({
+    required this.uid,
+    required this.name,
+    required this.description,
+    required this.units,
+    required this.cost,
+    required this.price,
+    required this.utility,
+  });
+}

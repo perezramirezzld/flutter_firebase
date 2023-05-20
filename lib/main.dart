@@ -6,6 +6,7 @@ import 'package:flutter_firebase/screens/general/login_screen.dart';
 import 'package:flutter_firebase/screens/menu_screen.dart';
 import 'package:flutter_firebase/screens/product/product_screen.dart';
 import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
+import 'package:flutter_firebase/screens/purchase/purchase_screen.dart';
 import 'package:flutter_firebase/screens/sale/sale_screen.dart';
 import 'package:flutter_firebase/screens/product/splash.dart';
 import 'package:flutter_firebase/screens/sale/upSale_screen.dart';
@@ -34,9 +35,12 @@ class MyApp extends StatelessWidget {
         '/login': (context) => login_Screen(),
         '/menu': (context) => menuscreen(),
         '/products': (context) => productscreen(),
+        '/purchases': (context) => purchasescreen(),
+        '/users': (context) => userscreen(),
+        //add
         '/addProduct': (context) => addproduct(),
         '/updateProduct': (context) => const upproduct(),
-        // '/users': (context) => user_screen(),
+
         // '/updateUser': (context) => update_user(),
         // '/sales': (context) => const salescreen(),
         // '/upsale': (context) => const upsalescreen(),

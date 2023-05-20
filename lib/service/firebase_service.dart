@@ -123,14 +123,14 @@ Future<void> postPurchase(Purchase purchase) async {
 
 ///////////////////////////// UPDATE //////////////////////////////////////
 
-void updateProduct(Product product) {
-  db.collection('product').doc(product.uid).set({
-    'name': product.name,
-    'description': product.description,
-    'units': product.units,
-    'cost': product.cost,
-    'price': product.price,
-    'utility': product.utility,
+updateProduct(Products products) {
+  db.collection('product').doc(products.uid).set({
+    'name': products.name,
+    'description': products.description,
+    'units': products.units,
+    'cost': products.cost,
+    'price': products.price,
+    'utility': products.utility,
   });
 }
 

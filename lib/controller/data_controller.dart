@@ -65,8 +65,8 @@ class DataController extends GetxController {
     await getAllSales();
   }
 
-  Future<void> updateProduct(Product product) async {
-    await updateProduct(product);
+  Future<void> updateProduct(Products products) async {
+    await updateProduct(products);
     await getAllProducts();
   }
 
