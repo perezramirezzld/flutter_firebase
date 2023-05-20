@@ -6,10 +6,12 @@ import 'package:flutter_firebase/screens/general/login_screen.dart';
 import 'package:flutter_firebase/screens/menu_screen.dart';
 import 'package:flutter_firebase/screens/product/product_screen.dart';
 import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
+import 'package:flutter_firebase/screens/purchase/addPurchase_screen.dart';
 import 'package:flutter_firebase/screens/purchase/purchase_screen.dart';
 import 'package:flutter_firebase/screens/sale/sale_screen.dart';
 import 'package:flutter_firebase/screens/product/splash.dart';
 import 'package:flutter_firebase/screens/sale/upSale_screen.dart';
+import 'package:flutter_firebase/screens/user/adduser_screen.dart';
 import 'package:flutter_firebase/screens/user/updateuser_screen.dart';
 import 'package:flutter_firebase/screens/user/user_screen.dart';
 import 'firebase_options.dart';
@@ -39,11 +41,14 @@ class MyApp extends StatelessWidget {
         '/users': (context) => userscreen(),
         //add
         '/addProduct': (context) => addproduct(),
-        '/updateProduct': (context) => const upproduct(),
-
+        '/addPurchase': (context) => addpurchase(),
+        '/addUser': (context) => adduser(),
+        //update
         // '/updateUser': (context) => update_user(),
         // '/sales': (context) => const salescreen(),
         // '/upsale': (context) => const upsalescreen(),
+        '/updateProduct': (context) => const upproduct(),
+
         '/splash': (context) => SplashScreen(),
       },
       debugShowCheckedModeBanner: false,

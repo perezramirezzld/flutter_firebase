@@ -50,6 +50,20 @@ class _upproductState extends State<upproduct> {
     });
   }
 
+  void agregar() async {
+    Products products = Products(
+      uid: uid.text,
+      name: _nameController.text,
+      description: _descriptionController.text,
+      units: int.parse(_unitsController.text),
+      cost: double.parse(_costController.text),
+      price: double.parse(_priceController.text),
+      utility: double.parse(_utilityController.text),
+    );
+
+    controller.updateProduct(products);
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map<dynamic, dynamic> arguments =
@@ -156,28 +170,7 @@ class _upproductState extends State<upproduct> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // Save the form data
-                    final product = {
-                      'uid': uid.text,
-                      'name': _nameController.text,
-                      'description': _descriptionController.text,
-                      'units': int.parse(_unitsController.text),
-                      'cost': double.parse(_costController.text),
-                      'price': double.parse(_priceController.text),
-                      'utility': double.parse(_utilityController.text),
-                    };
-                    Products products = Products(
-                      uid: uid.text,
-                      name: _nameController.text,
-                      description: _descriptionController.text,
-                      units: int.parse(_unitsController.text),
-                      cost: double.parse(_costController.text),
-                      price: double.parse(_priceController.text),
-                      utility: double.parse(_utilityController.text),
-                    );
-
-                    controller.updateProduct(products);
-                    await controller.getAllProducts();
-                    print('uid: ${uid.text}');
+                    agregar();
                     //initData();
                   }
                 },

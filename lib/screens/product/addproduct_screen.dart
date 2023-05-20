@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_firebase/screens/product/product_screen.dart';
+import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
 import 'package:get/get.dart';
 
 import '../../controller/data_controller.dart';
@@ -40,7 +41,8 @@ class _addproductState extends State<addproduct> {
   }
 
   Future<void> agregar() async {
-    Product products = Product(
+    Products products = Products(
+      uid: uid.text,
       name: _nameController.text,
       description: _descriptionController.text,
       units: int.parse(_unitsController.text),
@@ -48,7 +50,7 @@ class _addproductState extends State<addproduct> {
       price: double.parse(_priceController.text),
       utility: double.parse(_utilityController.text),
     );
-    controller.addProduct(products);
+    await controller.updateProduct(products);
   }
 
   void clear() {
