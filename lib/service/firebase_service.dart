@@ -15,13 +15,13 @@ Future<List<Product>> getProducts() async {
   for (var doc in queryproduct.docs) {
     productModel.add(
       Product(
+        uid: doc.id,
         name: doc['name'],
         description: doc['description'],
         units: doc['units'],
         cost: doc['cost'],
         price: doc['price'],
         utility: doc['utility'],
-        uid: doc.id,
       ),
     );
   }
@@ -122,8 +122,13 @@ Future<void> postPurchase(Purchase purchase) async {
 }
 
 ///////////////////////////// UPDATE //////////////////////////////////////
+<<<<<<< HEAD
+Future<void> updateProduct(Products products) async {
+  await db.collection('product').doc(products.uid).set({
+=======
 updateProduct(Products products) {
   db.collection('product').doc(products.uid).set({
+>>>>>>> master
     'name': products.name,
     'description': products.description,
     'units': products.units,
