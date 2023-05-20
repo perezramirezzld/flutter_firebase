@@ -17,14 +17,14 @@ class _SplashScreenState extends State<SplashScreen> {
     initData();
   }
 
-   Future<void> initData() async {
-      //await controller.getAllSales();
-      await controller.getAllProducts();
-      Future.delayed(const Duration(milliseconds: 300), () {
+  Future<void> initData() async {
+    //await controller.getAllSales();
+    await controller.getAllProducts();
+    Future.delayed(const Duration(milliseconds: 300), () {
       Navigator.of(context).pushNamed('/products');
     });
+  }
 
-    }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

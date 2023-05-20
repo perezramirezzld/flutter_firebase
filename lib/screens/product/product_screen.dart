@@ -22,7 +22,7 @@ class _productscreenState extends State<productscreen> {
   @override
   void initState() {
     //controller.getAllProducts();
-    productModel.addAll(controller.products);
+    productModel.addAll(controller.product);
     super.initState();
     initData();
   }
