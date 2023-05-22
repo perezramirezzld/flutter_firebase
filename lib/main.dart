@@ -8,14 +8,16 @@ import 'package:flutter_firebase/screens/product/product_screen.dart';
 import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
 import 'package:flutter_firebase/screens/purchase/addPurchase_screen.dart';
 import 'package:flutter_firebase/screens/purchase/purchase_screen.dart';
+import 'package:flutter_firebase/screens/purchase/updatePurchase_screen.dart';
 import 'package:flutter_firebase/screens/sale/sale_screen.dart';
-import 'package:flutter_firebase/screens/product/splash.dart';
+import 'package:flutter_firebase/screens/general/splash.dart';
 import 'package:flutter_firebase/screens/sale/upSale_screen.dart';
 import 'package:flutter_firebase/screens/user/adduser_screen.dart';
 import 'package:flutter_firebase/screens/user/updateuser_screen.dart';
 import 'package:flutter_firebase/screens/user/user_screen.dart';
 import 'firebase_options.dart';
 import 'screens/product/addproduct_screen.dart';
+import 'screens/sale/addSale_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,16 +41,18 @@ class MyApp extends StatelessWidget {
         '/menu': (context) => menuscreen(),
         '/products': (context) => productscreen(),
         '/purchases': (context) => purchasescreen(),
-        '/users': (context) => userscreen(),
+        '/users':(context) => userscreen(),
+        '/sales': (context) => salescreen(),
         //add
         '/addProduct': (context) => addproduct(),
         '/addPurchase': (context) => addpurchase(),
+        '/addSale': (context) => addsalescreen(),
         '/addUser': (context) => adduser(),
         //update
-        // '/updateUser': (context) => update_user(),
-        // '/sales': (context) => const salescreen(),
+         '/updateUser': (context) => update_user(),
+        '/updatePurchase': (context) => UpdatePurchase(),
         // '/upsale': (context) => const upsalescreen(),
-        '/updateProduct': (context) => const upproduct(),
+        '/updateProduct': (context) => const UpdateProduct(),
 
         '/splash': (context) => SplashScreen(),
       },

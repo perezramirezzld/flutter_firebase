@@ -18,8 +18,8 @@ class Product {
   });
 }
 
-class Products {
-  String uid;
+class ProductM {
+  String? uid;
   String name;
   String description;
   int units;
@@ -27,8 +27,8 @@ class Products {
   double price;
   double utility;
 
-  Products({
-    required this.uid,
+  ProductM({
+    this.uid,
     required this.name,
     required this.description,
     required this.units,
@@ -37,3 +37,5 @@ class Products {
     required this.utility,
   });
 }
+
+

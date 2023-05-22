@@ -9,7 +9,7 @@ import '../service/firebase_service.dart';
 class DataController extends GetxController {
   final sales = <Sale>[].obs;
   final users = <User>[].obs;
-  final product = <Product>[].obs;
+  final products = <Product>[].obs;
   final purchases = <Purchase>[].obs;
 
   @override
@@ -24,8 +24,8 @@ class DataController extends GetxController {
   }
 
   Future<void> getAllProducts() async {
-    product.clear();
-    product.value = await getProducts();
+    products.clear();
+    products.value = await getProducts();
   }
 
   Future<void> getAllUsers() async {
@@ -61,43 +61,52 @@ class DataController extends GetxController {
 
   ////////////////////////UPDATE//////////////////////
   Future<void> updateSale(Sale sale) async {
-    await updateSale(sale);
+    await updateSaleF(sale);
     await getAllSales();
   }
 
-  Future<void> updateProduct(Products products) async {
-    await updateProduct(products);
+  Future<void> updateProduct(Product products) async {
+    await updateProductF(products);
+    await getAllProducts();
+  }
+  Future<void> updateProductM(ProductM productm) async {
+    await updateProductM(productm);
     await getAllProducts();
   }
 
+  // Future<void> updateProductStock(String uid, int i) async {
+  //   await updateUnits(uid, i);
+  //   await getAllProducts();
+  // }
+
   Future<void> updateUser(User user) async {
-    await updateUser(user);
+    await updateUserF(user);
     await getAllUsers();
   }
 
   Future<void> updatePurchase(Purchase purchase) async {
-    await updatePurchase(purchase);
+    await updatePurchaseF(purchase);
     await getAllPurchases();
   }
 
   ////////////////////////DELETE//////////////////////
   Future<void> deleteSale(String uid) async {
-    await deleteSale(uid);
+    await deleteSaleF(uid);
     await getAllSales();
   }
 
   Future<void> deleteProduct(String uid) async {
-    await deleteProduct(uid);
+    await deleteProductF(uid);
     await getAllProducts();
   }
 
   Future<void> deleteUser(String uid) async {
-    await deleteUser(uid);
+    await deleteUserF(uid);
     await getAllUsers();
   }
 
   Future<void> detelePurchase(String uid) async {
-    await deletePurchase(uid);
+    await deletePurchaseF(uid);
     await getAllPurchases();
   }
 }

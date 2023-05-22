@@ -1,10 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_firebase/screens/product/addproduct_screen.dart';
-import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
 import 'package:flutter_firebase/service/firebase_service.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../controller/data_controller.dart';
 import '../../models/purchase_model.dart';
@@ -17,6 +15,7 @@ class purchasescreen extends StatefulWidget {
 }
 
 class _purchasescreenState extends State<purchasescreen> {
+  StreamSubscription<QuerySnapshot>? _subscription;
   final controller = Get.put(DataController());
   List<Purchase> purchaseModel = [];
   @override
@@ -24,7 +23,24 @@ class _purchasescreenState extends State<purchasescreen> {
     //controller.getAllProducts();
     purchaseModel.addAll(controller.purchases);
     super.initState();
-    initData();
+    _subscribeToPurches();
+  }
+
+  void _subscribeToPurches(){
+    _subscription = FirebaseFirestore.instance
+        .collection('purchase')
+        .snapshots()
+        .listen((QuerySnapshot snapshot) {
+      setState(() {
+        purchaseModel = snapshot.docs.map((DocumentSnapshot document) {
+          return Purchase(
+            uid: document.id,
+            name: document['name'],
+            pieces: document['pieces'],
+          );
+        }).toList();
+      });
+    });
   }
 
   Future<void> initData() async {
@@ -42,7 +58,7 @@ class _purchasescreenState extends State<purchasescreen> {
           itemCount: purchaseModel.length,
           itemBuilder: (BuildContext context, int index) {
             return Dismissible(
-              onDismissed: (direction) async => await deletePurchase(
+              onDismissed: (direction) async => await deletePurchaseF(
                   purchaseModel[index].uid?.toString() ?? ''),
               confirmDismiss: ((direction) => showDialog(
                     context: context,
@@ -81,9 +97,10 @@ class _purchasescreenState extends State<purchasescreen> {
                     size: 23,
                   ),
                   onTap: () {
-                    Navigator.pushNamed(context, "/upPurchase", arguments: {
+                    Navigator.pushNamed(context, "/updatePurchase", arguments: {
                       'name': purchaseModel[index].name,
                       'pieces': purchaseModel[index].pieces,
+                      'uid': purchaseModel[index].uid,
                     });
                     setState(() {});
                   },

@@ -28,7 +28,7 @@ class _addpurchaseState extends State<addpurchase> {
   }
 
   Future<void> initData() async {
-    await controller.getAllProducts();
+    await controller.getAllPurchases();
     Future.delayed(const Duration(milliseconds: 300), () {
       setState(() {});
       Navigator.of(context).pushNamed('/purchases');
@@ -90,8 +90,8 @@ class _addpurchaseState extends State<addpurchase> {
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    agregar();
-                    initData();
+                    agregar().then((value) => initData());
+
                   }
                 },
                 child: Text('Save'),

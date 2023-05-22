@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_firebase/models/sale_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/product_model.dart';
 import '../models/user_model.dart';
@@ -17,10 +18,10 @@ Future<List<Product>> getProducts() async {
       Product(
         name: doc['name'],
         description: doc['description'],
-        units: doc['units'],
-        cost: doc['cost'],
-        price: doc['price'],
-        utility: doc['utility'],
+        units: doc['units'] as int,
+        cost: doc['cost'] as double,
+        price: doc['price'] as double,
+        utility: doc['utility'] as double,
         uid: doc.id,
       ),
     );
@@ -32,7 +33,6 @@ Future<List<Product>> getProducts() async {
 }
 
 Future<List<Sale>> getSales() async {
-  // List product = [];
   List<Sale> salesModel = [];
   QuerySnapshot queryproduct = await db.collection('sale').get();
   for (var doc in queryproduct.docs) {
@@ -63,6 +63,8 @@ Future<List<User>> getUsers() async {
       uid: doc.id,
     ));
   }
+print(usersModel.length);
+
   return usersModel;
 }
 
@@ -92,6 +94,7 @@ Future<void> postProduct(Product product) async {
   });
 }
 
+
 Future<void> postSale(Sale sale) async {
   await db.collection('sale').add({
     'name': sale.name,
@@ -107,7 +110,7 @@ Future<void> postUser(User user) async {
   await db.collection("user").add({
     'name': user.name,
     'lastname': user.lastname,
-    'age': user.lastname,
+    'age': user.age,
     'gender': user.gender,
     'email': user.email,
     'password': user.password,
@@ -122,18 +125,37 @@ Future<void> postPurchase(Purchase purchase) async {
 }
 
 ///////////////////////////// UPDATE //////////////////////////////////////
-Future<void> updateProduct(Products products) async {
-  await db.collection('product').doc(products.uid).set({
-    'name': products.name,
-    'description': products.description,
-    'units': products.units,
-    'cost': products.cost,
-    'price': products.price,
-    'utility': products.utility,
+Future<void> updateProductF(Product product) async {
+  await db.collection('product').doc(product.uid).set({
+    'name': product.name,
+    'description': product.description,
+    'units': product.units,
+    'cost': product.cost,
+    'price': product.price,
+    'utility': product.utility,
   });
 }
 
-Future<void> updateSale(Sale sale) async {
+Future<void> updateProductM(ProductM productM) async {
+  await db.collection('product').doc(productM.uid).set({
+    'name': productM.name,
+    'description': productM.description,
+    'units': productM.units,
+    'cost': productM.cost,
+    'price': productM.price,
+    'utility': productM.utility,
+  });
+}
+
+// Future<void> updateUnits(String uid, int i) async {
+//   int negativeI = -i; // Asegúrate de que 'i' sea negativo
+//   await FirebaseFirestore.instance.collection('product').doc(uid).update({
+//     'units': FieldValue.increment(negativeI),
+//   });
+// }
+
+
+Future<void> updateSaleF(Sale sale) async {
   await db.collection('sale').doc(sale.uid).set({
     'name': sale.name,
     'IdProduct': sale.idProduct,
@@ -144,7 +166,7 @@ Future<void> updateSale(Sale sale) async {
   });
 }
 
-Future<void> updateUser(User user) async {
+Future<void> updateUserF(User user) async {
   await db.collection('user').doc(user.uid).set({
     'name': user.name,
     'lastname': user.lastname,
@@ -155,7 +177,7 @@ Future<void> updateUser(User user) async {
   });
 }
 
-Future<void> updatePurchase(Purchase purchase) async {
+Future<void> updatePurchaseF(Purchase purchase) async {
   await db.collection('purchase').doc(purchase.uid).set({
     'name': purchase.name,
     'pieces': purchase.pieces,
@@ -164,18 +186,18 @@ Future<void> updatePurchase(Purchase purchase) async {
 
 ///////////////////////////// DELETE //////////////////////////////////////
 
-Future<void> deleteProduct(String uid) async {
+Future<void> deleteProductF(String uid) async {
   await db.collection('product').doc(uid).delete();
 }
 
-Future<void> deleteUser(String uid) async {
+Future<void> deleteUserF(String uid) async {
   await db.collection('user').doc(uid).delete();
 }
 
-Future<void> deletePurchase(String uid) async {
+Future<void> deletePurchaseF(String uid) async {
   await db.collection('purchase').doc(uid).delete();
 }
 
-Future<void> deleteSale(String uid) async {
+Future<void> deleteSaleF(String uid) async {
   await db.collection('sale').doc(uid).delete();
 }

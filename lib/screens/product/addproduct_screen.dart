@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -44,7 +42,6 @@ class _addproductState extends State<addproduct> {
 
   Future<void> agregar() async {
     Product product = Product(
-      uid: uid.text,
       name: _nameController.text,
       description: _descriptionController.text,
       units: int.parse(_unitsController.text),
@@ -52,7 +49,7 @@ class _addproductState extends State<addproduct> {
       price: double.parse(_priceController.text),
       utility: double.parse(_utilityController.text),
     );
-    await controller.addProduct(product);
+    controller.addProduct(product);
   }
 
   void clear() {
@@ -62,6 +59,7 @@ class _addproductState extends State<addproduct> {
     _costController.clear();
     _priceController.clear();
     _utilityController.clear();
+    
   }
 
   @override

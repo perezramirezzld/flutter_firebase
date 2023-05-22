@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_firebase/screens/product/addproduct_screen.dart';
 import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
 import 'package:flutter_firebase/service/firebase_service.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../controller/data_controller.dart';
 import '../../models/product_model.dart';
@@ -17,14 +19,35 @@ class productscreen extends StatefulWidget {
 }
 
 class _productscreenState extends State<productscreen> {
+  StreamSubscription<QuerySnapshot>? _subscription;
   final controller = Get.put(DataController());
   List<Product> productModel = [];
   @override
   void initState() {
     //controller.getAllProducts();
-    productModel.addAll(controller.product);
+    productModel.addAll(controller.products);
     super.initState();
-    initData();
+    _subscribeToProducts();
+  }
+  void _subscribeToProducts(){
+    _subscription = FirebaseFirestore.instance
+        .collection('product')
+        .snapshots()
+        .listen((QuerySnapshot snapshot) {
+      setState(() {
+        productModel = snapshot.docs.map((DocumentSnapshot document) {
+          return Product(
+            uid: document.id,
+            name: document['name'],
+            description: document['description'],
+            units: document['units'],
+            cost: document['cost'],
+            price: document['price'],
+            utility: document['utility'],
+          );
+        }).toList();
+      });
+    });
   }
 
   Future<void> initData() async {
@@ -42,7 +65,7 @@ class _productscreenState extends State<productscreen> {
           itemCount: productModel.length,
           itemBuilder: (BuildContext context, int index) {
             return Dismissible(
-              onDismissed: (direction) async => await deleteProduct(
+              onDismissed: (direction) async => await deleteProductF(
                   productModel[index].uid?.toString() ?? ''),
               confirmDismiss: ((direction) => showDialog(
                     context: context,
@@ -79,7 +102,7 @@ class _productscreenState extends State<productscreen> {
                   trailing: Icon(
                     Icons.delete_sweep,
                     size: 23,
-                  ),
+                  ), 
                   onTap: () {
                     Navigator.pushNamed(context, "/updateProduct", arguments: {
                       'name': productModel[index].name,
@@ -101,8 +124,8 @@ class _productscreenState extends State<productscreen> {
           onPressed: () {
             Navigator.pushNamed(context, "/addProduct");
           },
-          child: const Icon(Icons.playlist_add),
           backgroundColor: const Color(0XFF9d870c),
+          child: const Icon(Icons.playlist_add),
         ));
   }
 }

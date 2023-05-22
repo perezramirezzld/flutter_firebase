@@ -18,7 +18,6 @@ class adduser extends StatefulWidget {
 final _formKey = GlobalKey<FormState>();
 final _nameController = TextEditingController();
 final _lastnameController = TextEditingController();
-final _piecesController = TextEditingController();
 final _ageController = TextEditingController();
 final _genderController = TextEditingController();
 final _emailController = TextEditingController();

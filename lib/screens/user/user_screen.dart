@@ -1,10 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_firebase/screens/product/addproduct_screen.dart';
-import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
 import 'package:flutter_firebase/service/firebase_service.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../controller/data_controller.dart';
 import '../../models/user_model.dart';
@@ -17,6 +15,7 @@ class userscreen extends StatefulWidget {
 }
 
 class _userscreenState extends State<userscreen> {
+  StreamSubscription<QuerySnapshot>? _subscription;
   final controller = Get.put(DataController());
   List<User> userModel = [];
   @override
@@ -24,7 +23,27 @@ class _userscreenState extends State<userscreen> {
     //controller.getAllProducts();
     userModel.addAll(controller.users);
     super.initState();
-    initData();
+    _subscribeToUsers();
+  }
+  void _subscribeToUsers(){
+    _subscription = FirebaseFirestore.instance
+        .collection('user')
+        .snapshots()
+        .listen((QuerySnapshot snapshot) {
+      setState(() {
+        userModel = snapshot.docs.map((DocumentSnapshot document) {
+          return User(
+            uid: document.id,
+            name: document['name'],
+            lastname: document['lastname'],
+            age: document['age'],
+            gender: document['gender'],
+            email: document['email'],
+            password: document['password'],
+          );
+        }).toList();
+      });
+    });
   }
 
   Future<void> initData() async {
@@ -43,7 +62,7 @@ class _userscreenState extends State<userscreen> {
           itemBuilder: (BuildContext context, int index) {
             return Dismissible(
               onDismissed: (direction) async =>
-                  await deleteUser(userModel[index].uid?.toString() ?? ''),
+                  await deleteUserF(userModel[index].uid?.toString() ?? ''),
               confirmDismiss: ((direction) => showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
@@ -81,13 +100,13 @@ class _userscreenState extends State<userscreen> {
                     size: 23,
                   ),
                   onTap: () {
-                    Navigator.pushNamed(context, "/upUser", arguments: {
+                    Navigator.pushNamed(context, "/updateUser", arguments: {
                       'name': userModel[index].name,
-                      'description': userModel[index].lastname,
-                      'units': userModel[index].age,
-                      'cost': userModel[index].gender,
-                      'price': userModel[index].email,
-                      'utility': userModel[index].password,
+                      'lastname': userModel[index].lastname,
+                      'age': userModel[index].age,
+                      'gender': userModel[index].gender,
+                      'email': userModel[index].email,
+                      'password': userModel[index].password,
                       'uid': userModel[index].uid,
                     });
                     setState(() {});

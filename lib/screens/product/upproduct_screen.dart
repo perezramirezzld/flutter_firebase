@@ -1,38 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_firebase/models/product_model.dart';
 import 'package:get/get.dart';
-
 import '../../controller/data_controller.dart';
+import '../../models/product_model.dart';
 import '../../service/firebase_service.dart';
 
-class upproduct extends StatefulWidget {
-  const upproduct({super.key});
+class UpdateProduct extends StatefulWidget {
+  const UpdateProduct({Key? key}) : super(key: key);
 
   @override
-  State<upproduct> createState() => _upproductState();
+  State<UpdateProduct> createState() => _UpdateProductState();
 }
 
-final uid = TextEditingController();
-final _formKey = GlobalKey<FormState>();
-final _nameController = TextEditingController();
-final _descriptionController = TextEditingController();
-final _unitsController = TextEditingController();
-final _costController = TextEditingController();
-final _priceController = TextEditingController();
-final _utilityController = TextEditingController();
-
-class _upproductState extends State<upproduct> {
+class _UpdateProductState extends State<UpdateProduct> {
+  final uid = TextEditingController();
   final controller = Get.put(DataController());
-  @override
-  void initState() {
-    super.initState();
-  }
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _unitsController = TextEditingController();
+  final _costController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _utilityController = TextEditingController();
 
   @override
   void dispose() {
-    uid.dispose();
     _nameController.dispose();
     _descriptionController.dispose();
     _unitsController.dispose();
@@ -42,32 +33,23 @@ class _upproductState extends State<upproduct> {
     super.dispose();
   }
 
-  Future<void> initData() async {
-    await controller.getAllProducts();
+  @override
+  void initState() {
+    super.initState();
+    controller.getAllProducts();
+  }
+
+  Future<void> changeScreen() async {
+    // await controller.getAllProducts();
     Future.delayed(const Duration(milliseconds: 300), () {
       setState(() {});
       Navigator.of(context).pushNamed('/products');
     });
   }
 
-  void agregar() async {
-    Products products = Products(
-      uid: uid.text,
-      name: _nameController.text,
-      description: _descriptionController.text,
-      units: int.parse(_unitsController.text),
-      cost: double.parse(_costController.text),
-      price: double.parse(_priceController.text),
-      utility: double.parse(_utilityController.text),
-    );
-
-    controller.updateProduct(products);
-  }
-
   @override
   Widget build(BuildContext context) {
-    final Map<dynamic, dynamic> arguments =
-        ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
+    final arguments = ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
     uid.text = arguments['uid'];
     _nameController.text = arguments['name'];
     _descriptionController.text = arguments['description'];
@@ -165,16 +147,23 @@ class _upproductState extends State<upproduct> {
                 },
                 keyboardType: TextInputType.number,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () async {
+                onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    // Save the form data
-                    agregar();
-                    //initData();
+                    final product = Product(
+                      uid: uid.text,
+                      name: _nameController.text,
+                      description: _descriptionController.text,
+                      units: int.parse(_unitsController.text),
+                      cost: double.parse(_costController.text),
+                      price: double.parse(_priceController.text),
+                      utility: double.parse(_utilityController.text),
+                    );
+                    controller.updateProduct(product).then((value) => changeScreen());
                   }
                 },
-                child: Text('Save'),
+                child: const Text('Save'),
               ),
             ],
           ),
