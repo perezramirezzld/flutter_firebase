@@ -113,11 +113,11 @@ class _updatesalescreenState extends State<UpdateSales> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset('assets/panes.png',
+                          Image.asset('assets/compra.png',
                               width: 50, height: 50),
                           SizedBox(width: 10),
                           Text(
-                            'Product Form',
+                            'Sale Form',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w200,
@@ -187,7 +187,7 @@ class _updatesalescreenState extends State<UpdateSales> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 35),
+                    SizedBox(height: 45),
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {

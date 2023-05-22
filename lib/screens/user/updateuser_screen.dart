@@ -94,11 +94,11 @@ class _update_userState extends State<update_user> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset('assets/panes.png',
+                          Image.asset('assets/registro.png',
                               width: 50, height: 50),
                           SizedBox(width: 10),
                           Text(
-                            'Product Form',
+                            'User Form',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w200,
