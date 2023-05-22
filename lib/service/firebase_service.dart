@@ -147,12 +147,11 @@ Future<void> updateProductM(ProductM productM) async {
   });
 }
 
-// Future<void> updateUnits(String uid, int i) async {
-//   int negativeI = -i; // Asegúrate de que 'i' sea negativo
-//   await FirebaseFirestore.instance.collection('product').doc(uid).update({
-//     'units': FieldValue.increment(negativeI),
-//   });
-// }
+Future<void> updateUnits(String uid, int i) async {
+  await FirebaseFirestore.instance.collection('product').doc(uid).update({
+    'units': i,
+  });
+}
 
 
 Future<void> updateSaleF(Sale sale) async {

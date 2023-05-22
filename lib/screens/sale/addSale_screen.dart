@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/controller/data_controller.dart';
 import 'package:flutter_firebase/models/product_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_firebase/service/firebase_service.dart';
 import 'package:get/get.dart';
 
 import '../../models/sale_model.dart';
@@ -38,13 +39,6 @@ class _addsalescreenState extends State<addsalescreen> {
     super.initState();
   }
 
-  Future<void> changeScreen() async {
-    Future.delayed(const Duration(milliseconds: 300), () {
-      setState(() {});
-      Navigator.of(context).pushNamed('/sales');
-    });
-  }
-
   Future<void> agregar() async {
     Sale sale = Sale(
       idClient: _idClientController.text,
@@ -54,16 +48,8 @@ class _addsalescreenState extends State<addsalescreen> {
       subtotal: selectedProduct!.price,
       total: total,
     );
-    ProductM p = ProductM(
-      uid: selectedProduct!.uid!,
-      name: selectedProduct!.name,
-      description: selectedProduct!.description,
-      units: newPieces,
-      cost: selectedProduct!.cost,
-      price: selectedProduct!.price,
-      utility: selectedProduct!.utility,
-    );
-    // controller.updateProductM(p);
+
+    updateUnits(selectedProduct!.uid!, newPieces);
     controller.addSale(sale);
   }
 
@@ -178,7 +164,7 @@ class _addsalescreenState extends State<addsalescreen> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     agregar();
-                    changeScreen();
+                    Navigator.of(context).pushNamed('/sales');
                     clear();
                   }
                 },
