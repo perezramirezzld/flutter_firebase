@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         '/menu': (context) => menuscreen(),
         '/products': (context) => productscreen(),
         '/purchases': (context) => purchasescreen(),
-        '/users':(context) => userscreen(),
+        '/users': (context) => userscreen(),
         '/sales': (context) => salescreen(),
         //add
         '/addProduct': (context) => addproduct(),
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         '/addSale': (context) => addsalescreen(),
         '/addUser': (context) => adduser(),
         //update
-         '/updateUser': (context) => update_user(),
+        '/updateUser': (context) => update_user(),
         '/updatePurchase': (context) => UpdatePurchase(),
         // '/upsale': (context) => const upsalescreen(),
         '/updateProduct': (context) => const UpdateProduct(),

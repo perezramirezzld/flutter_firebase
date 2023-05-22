@@ -22,10 +22,9 @@ class _SplashScreenState extends State<SplashScreen> {
     await controller.getAllSales();
     await controller.getAllPurchases();
     await controller.getAllUsers();
-    
-    
+
     Future.delayed(const Duration(milliseconds: 300), () {
-      Navigator.of(context).pushNamed('/menu');
+      Navigator.of(context).pushNamed('/login');
     });
   }
 

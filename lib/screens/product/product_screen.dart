@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -22,6 +23,13 @@ class _productscreenState extends State<productscreen> {
   StreamSubscription<QuerySnapshot>? _subscription;
   final controller = Get.put(DataController());
   List<Product> productModel = [];
+  List<String> randomIcons = [
+    'assets/tostado.png',
+    'assets/pan-dulce.png',
+    'assets/pan-de-molde.png',
+    'assets/grano-integral.png',
+    // Agrega más iconos aquí según tus necesidades
+  ];
   @override
   void initState() {
     //controller.getAllProducts();
@@ -29,7 +37,8 @@ class _productscreenState extends State<productscreen> {
     super.initState();
     _subscribeToProducts();
   }
-  void _subscribeToProducts(){
+
+  void _subscribeToProducts() {
     _subscription = FirebaseFirestore.instance
         .collection('product')
         .snapshots()
@@ -59,11 +68,25 @@ class _productscreenState extends State<productscreen> {
     return Scaffold(
         backgroundColor: const Color(0xFFF8F8EC),
         appBar: AppBar(
-          backgroundColor: const Color(0XFF9d870c),
+          automaticallyImplyLeading: false,
+          title: const Text('Products', style: TextStyle(color: Colors.white)),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context,
+                    '/menu'); // Navegar a la página de inicio de sesión
+              },
+              child: Icon(Icons.roofing, color: Colors.white),
+            ),
+          ],
+          backgroundColor: const Color(0xff7a6a53),
         ),
         body: ListView.builder(
           itemCount: productModel.length,
           itemBuilder: (BuildContext context, int index) {
+            // Generar un índice aleatorio para seleccionar un icono de la lista
+            final randomIndex = Random().nextInt(randomIcons.length);
+            final randomImage = randomIcons[randomIndex];
             return Dismissible(
               onDismissed: (direction) async => await deleteProductF(
                   productModel[index].uid?.toString() ?? ''),
@@ -97,12 +120,17 @@ class _productscreenState extends State<productscreen> {
               ),
               child: Card(
                 child: ListTile(
+                  leading: Image.asset(
+                    randomImage,
+                    width: 30,
+                    height: 30,
+                  ),
                   title: Text(productModel[index].name),
                   subtitle: Text('Cantidad: ${productModel[index].units}'),
                   trailing: Icon(
                     Icons.delete_sweep,
                     size: 23,
-                  ), 
+                  ),
                   onTap: () {
                     Navigator.pushNamed(context, "/updateProduct", arguments: {
                       'name': productModel[index].name,

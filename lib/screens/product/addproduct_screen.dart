@@ -59,7 +59,6 @@ class _addproductState extends State<addproduct> {
     _costController.clear();
     _priceController.clear();
     _utilityController.clear();
-    
   }
 
   @override
