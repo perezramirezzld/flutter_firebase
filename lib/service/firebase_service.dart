@@ -193,6 +193,7 @@ Future<void> deleteUserF(String uid) async {
   await db.collection('user').doc(uid).delete();
 }
 
+
 Future<void> deletePurchaseF(String uid) async {
   await db.collection('purchase').doc(uid).delete();
 }

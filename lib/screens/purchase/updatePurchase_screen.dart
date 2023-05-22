@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/service/firebase_service.dart';
 import 'package:get/get.dart';
 import 'package:flutter_firebase/models/purchase_model.dart';
 import '../../controller/data_controller.dart';
@@ -73,6 +74,7 @@ class _UpdatePurchaseState extends State<UpdatePurchase> {
     uid.text = arguments['uid'];
     _nameController.text = arguments['name'];
     _piecesController.text = arguments['pieces'].toString();
+    int aux = int.parse(_piecesController.text);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Update Purchase'),
@@ -135,9 +137,19 @@ class _UpdatePurchaseState extends State<UpdatePurchase> {
                       name: selectedProduct!.name,
                       pieces: int.parse(_piecesController.text),
                     );
-                    controller
-                        .updatePurchase(purchase)
-                        .then((value) => changeScreen());
+                    if (aux>int.parse(_piecesController.text)){
+                      int aux2 = aux - int.parse(_piecesController.text);
+                      
+                      updateUnits(selectedProduct!.uid!, selectedProduct!.units - aux2);
+                      aux2=0;
+                    }else{
+                      int aux2 = int.parse(_piecesController.text) - aux ;
+
+                      updateUnits(selectedProduct!.uid!, selectedProduct!.units + aux2);
+                      aux2=0;
+                    }
+                    controller.updatePurchase(purchase);
+                    Navigator.of(context).pushNamed('/purchases');
                   }
                 },
                 child: const Text('Save'),

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../controller/data_controller.dart';
+import '../../models/product_model.dart';
 import '../../models/purchase_model.dart';
 
 class purchasescreen extends StatefulWidget {
@@ -18,12 +19,16 @@ class _purchasescreenState extends State<purchasescreen> {
   StreamSubscription<QuerySnapshot>? _subscription;
   final controller = Get.put(DataController());
   List<Purchase> purchaseModel = [];
+  List<Product> productModel = [];
+  Product? selectedProduct;
   @override
   void initState() {
     //controller.getAllProducts();
     purchaseModel.addAll(controller.purchases);
     super.initState();
     _subscribeToPurches();
+    _subscribeToProducts();
+    
   }
 
   void _subscribeToPurches(){
@@ -37,6 +42,26 @@ class _purchasescreenState extends State<purchasescreen> {
             uid: document.id,
             name: document['name'],
             pieces: document['pieces'],
+          );
+        }).toList();
+      });
+    });
+  }
+  void _subscribeToProducts() {
+    _subscription = FirebaseFirestore.instance
+        .collection('product')
+        .snapshots()
+        .listen((QuerySnapshot snapshot) {
+      setState(() {
+        productModel = snapshot.docs.map((DocumentSnapshot document) {
+          return Product(
+            uid: document.id,
+            name: document['name'],
+            description: document['description'],
+            units: document['units'],
+            cost: document['cost'],
+            price: document['price'],
+            utility: document['utility'],
           );
         }).toList();
       });
@@ -58,8 +83,10 @@ class _purchasescreenState extends State<purchasescreen> {
           itemCount: purchaseModel.length,
           itemBuilder: (BuildContext context, int index) {
             return Dismissible(
-              onDismissed: (direction) async => await deletePurchaseF(
-                  purchaseModel[index].uid?.toString() ?? ''),
+              onDismissed: (direction) async => await 
+                
+                controller.detelePurchase(
+                  purchaseModel[index].uid?.toString() ?? '' ), 
               confirmDismiss: ((direction) => showDialog(
                     context: context,
                     builder: (context) => AlertDialog(

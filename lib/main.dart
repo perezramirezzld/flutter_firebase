@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         //update
         '/updateUser': (context) => update_user(),
         '/updatePurchase': (context) => UpdatePurchase(),
-        // '/upsale': (context) => const upsalescreen(),
+        '/updateSale': (context) => const UpdateSales(),
         '/updateProduct': (context) => const UpdateProduct(),
 
         '/splash': (context) => SplashScreen(),
