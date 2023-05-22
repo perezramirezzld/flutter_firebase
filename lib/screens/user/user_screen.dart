@@ -25,7 +25,8 @@ class _userscreenState extends State<userscreen> {
     super.initState();
     _subscribeToUsers();
   }
-  void _subscribeToUsers(){
+
+  void _subscribeToUsers() {
     _subscription = FirebaseFirestore.instance
         .collection('user')
         .snapshots()
@@ -55,7 +56,22 @@ class _userscreenState extends State<userscreen> {
     return Scaffold(
         backgroundColor: const Color(0xFFF8F8EC),
         appBar: AppBar(
-          backgroundColor: const Color(0XFF9d870c),
+          automaticallyImplyLeading: false,
+          title: const Text('Users',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Arial  ',
+                  fontWeight: FontWeight.normal)),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context,
+                    '/menu'); // Navegar a la página de inicio de sesión
+              },
+              child: Icon(Icons.roofing, color: Colors.white),
+            ),
+          ],
+          backgroundColor: const Color(0xff7a6a53),
         ),
         body: ListView.builder(
           itemCount: userModel.length,
@@ -93,11 +109,13 @@ class _userscreenState extends State<userscreen> {
               ),
               child: Card(
                 child: ListTile(
+                  leading: const Icon(Icons.account_circle),
                   title: Text(userModel[index].name),
                   subtitle: Text('Cantidad: ${userModel[index].gender}'),
                   trailing: Icon(
                     Icons.delete_sweep,
                     size: 23,
+                    color: Color(0xffE1860A),
                   ),
                   onTap: () {
                     Navigator.pushNamed(context, "/updateUser", arguments: {
@@ -120,8 +138,11 @@ class _userscreenState extends State<userscreen> {
           onPressed: () {
             Navigator.pushNamed(context, "/addUser");
           },
-          child: const Icon(Icons.playlist_add),
-          backgroundColor: const Color(0XFF9d870c),
+          child: const Icon(
+            Icons.add_task_outlined,
+            size: 25,
+          ),
+          backgroundColor: const Color(0xffE1860A),
         ));
   }
 }

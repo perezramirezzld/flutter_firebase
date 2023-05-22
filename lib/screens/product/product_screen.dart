@@ -69,7 +69,11 @@ class _productscreenState extends State<productscreen> {
         backgroundColor: const Color(0xFFF8F8EC),
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text('Products', style: TextStyle(color: Colors.white)),
+          title: const Text('Products',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Arial  ',
+                  fontWeight: FontWeight.normal)),
           actions: [
             TextButton(
               onPressed: () {
@@ -130,6 +134,7 @@ class _productscreenState extends State<productscreen> {
                   trailing: Icon(
                     Icons.delete_sweep,
                     size: 23,
+                    color: Color(0xffE1860A),
                   ),
                   onTap: () {
                     Navigator.pushNamed(context, "/updateProduct", arguments: {
@@ -152,8 +157,11 @@ class _productscreenState extends State<productscreen> {
           onPressed: () {
             Navigator.pushNamed(context, "/addProduct");
           },
-          backgroundColor: const Color(0XFF9d870c),
-          child: const Icon(Icons.playlist_add),
+          backgroundColor: const Color(0xffE1860A),
+          child: const Icon(
+            Icons.add_task_outlined,
+            size: 25,
+          ),
         ));
   }
 }

@@ -63,92 +63,134 @@ class _adduserState extends State<adduser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff948c75),
       appBar: AppBar(
-        title: const Text('User Form'),
+        backgroundColor: Color(0xff948c75),
       ),
       body: Form(
         key: _formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Name'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a name';
-                  }
-                  return null;
-                },
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 90.0,
+            left: 30.0,
+            right: 30.0,
+            bottom: 100.0,
+          ),
+          child: Center(
+            child: Card(
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
               ),
-              TextFormField(
-                controller: _lastnameController,
-                decoration: const InputDecoration(labelText: 'LastName'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a lastname';
-                  }
-                  return null;
-                },
+              color: Color(0xffff8fef4),
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 30.0,
+                  left: 30.0,
+                  right: 30.0,
+                  bottom: 35.0,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    const SizedBox(height: 20),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/panes.png',
+                              width: 50, height: 50),
+                          SizedBox(width: 10),
+                          Text(
+                            'Product Form',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w200,
+                              color: Colors.grey[500],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: const InputDecoration(labelText: 'Name'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a name';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _lastnameController,
+                      decoration: const InputDecoration(labelText: 'LastName'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a lastname';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _ageController,
+                      decoration: const InputDecoration(labelText: 'Age'),
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter the number of age';
+                        }
+                        final int? units = int.tryParse(value);
+                        if (units == null || units < 1) {
+                          return 'Please enter a valid number of age';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _genderController,
+                      decoration: const InputDecoration(labelText: 'Gender'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a gender';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(labelText: 'Email'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a email';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      decoration: const InputDecoration(labelText: 'Paswword'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a password';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 35),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          agregar();
+                          initData();
+                        }
+                      },
+                      child: Text('Save'),
+                    ),
+                  ],
+                ),
               ),
-              TextFormField(
-                controller: _ageController,
-                decoration: const InputDecoration(labelText: 'Age'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the number of age';
-                  }
-                  final int? units = int.tryParse(value);
-                  if (units == null || units < 1) {
-                    return 'Please enter a valid number of age';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _genderController,
-                decoration: const InputDecoration(labelText: 'Gender'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a gender';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a email';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Paswword'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a password';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    agregar();
-                    initData();
-                  }
-                },
-                child: Text('Save'),
-              ),
-            ],
+            ),
           ),
         ),
       ),

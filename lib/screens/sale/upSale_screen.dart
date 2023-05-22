@@ -17,7 +17,7 @@ class UpdateSales extends StatefulWidget {
 }
 
 class _updatesalescreenState extends State<UpdateSales> {
-   StreamSubscription<QuerySnapshot>? _subscription;
+  StreamSubscription<QuerySnapshot>? _subscription;
   final controller = Get.put(DataController());
   final _formKey = GlobalKey<FormState>();
   final uid = TextEditingController();
@@ -46,8 +46,6 @@ class _updatesalescreenState extends State<UpdateSales> {
     _subscribeToProducts();
   }
 
- 
-
   void _subscribeToProducts() {
     _subscription = FirebaseFirestore.instance
         .collection('product')
@@ -71,7 +69,8 @@ class _updatesalescreenState extends State<UpdateSales> {
 
   @override
   Widget build(BuildContext context) {
-    final Map <dynamic, dynamic> arguments = ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
+    final Map<dynamic, dynamic> arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
     uid.text = arguments['uid'];
     _nameController.text = arguments['name'];
     _piecesController.text = arguments['pieces'].toString();
@@ -80,97 +79,138 @@ class _updatesalescreenState extends State<UpdateSales> {
     _subtotalController.text = arguments['subtotal'].toString();
     _totalController.text = arguments['total'].toString();
     return Scaffold(
+      backgroundColor: Color(0xff948c75),
       appBar: AppBar(
-        title: const Text('Edit Product'),
+        backgroundColor: Color(0xff948c75),
       ),
       body: Form(
         key: _formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              DropdownButtonFormField<Product>(
-                value: selectedProduct,
-                onChanged: (Product? newValue) {
-                  setState(() {
-                    selectedProduct = newValue;
-                    print(selectedProduct!.units);
-                  });
-                },
-                items: productModel.isEmpty
-                    ? []
-                    : productModel.map<DropdownMenuItem<Product>>(
-                        (Product product) {
-                        return DropdownMenuItem<Product>(
-                          value: product,
-                          child: Text(product.name),
-                        );
-                      }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Select a product',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Please select a product';
-                  }
-                  return null;
-                },
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 90.0,
+            left: 30.0,
+            right: 30.0,
+            bottom: 100.0,
+          ),
+          child: Center(
+            child: Card(
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
               ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _piecesController,
-                decoration: const InputDecoration(
-                  labelText: 'Pieces',
-                  border: OutlineInputBorder(),
+              color: Color(0xffff8fef4),
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 30.0,
+                  left: 30.0,
+                  right: 30.0,
+                  bottom: 35.0,
                 ),
-                validator: (value) {
-                  if (value == null ||
-                      int.tryParse(value) == null ||
-                      int.parse(value) > selectedProduct!.units ||
-                      value.isEmpty) {
-                    return 'Please enter a valid number of pieces or a number lower than ${selectedProduct!.units}';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _idClientController,
-                decoration: const InputDecoration(
-                  labelText: 'Id Client',
-                  border: OutlineInputBorder(),
+                child: Column(
+                  children: <Widget>[
+                    const SizedBox(height: 20),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/panes.png',
+                              width: 50, height: 50),
+                          SizedBox(width: 10),
+                          Text(
+                            'Product Form',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w200,
+                              color: Colors.grey[500],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    DropdownButtonFormField<Product>(
+                      value: selectedProduct,
+                      onChanged: (Product? newValue) {
+                        setState(() {
+                          selectedProduct = newValue;
+                          print(selectedProduct!.units);
+                        });
+                      },
+                      items: productModel.isEmpty
+                          ? []
+                          : productModel.map<DropdownMenuItem<Product>>(
+                              (Product product) {
+                              return DropdownMenuItem<Product>(
+                                value: product,
+                                child: Text(product.name),
+                              );
+                            }).toList(),
+                      decoration: InputDecoration(
+                        labelText: 'Select a product',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select a product';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    TextFormField(
+                      controller: _piecesController,
+                      decoration: const InputDecoration(
+                        labelText: 'Pieces',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null ||
+                            int.tryParse(value) == null ||
+                            int.parse(value) > selectedProduct!.units ||
+                            value.isEmpty) {
+                          return 'Please enter a valid number of pieces or a number lower than ${selectedProduct!.units}';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    TextFormField(
+                      controller: _idClientController,
+                      decoration: const InputDecoration(
+                        labelText: 'Id Client',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter an id client';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 35),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          Sale sale = Sale(
+                              name: selectedProduct!.name,
+                              idProduct: _idProductController.text,
+                              idClient: _idClientController.text,
+                              pieces: int.parse(_piecesController.text),
+                              subtotal: double.parse(_subtotalController.text),
+                              total: double.parse(_totalController.text));
+                          controller.updateSale(sale);
+                          Navigator.of(context).pushNamed('/sales');
+                        }
+                      },
+                      child: Text('Update Sale'),
+                    )
+                  ],
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an id client';
-                  }
-                  return null;
-                },
               ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    Sale sale = Sale(
-                      name: selectedProduct!.name, 
-                      idProduct: _idProductController.text, 
-                      idClient: _idClientController.text, 
-                      pieces: int.parse(_piecesController.text), 
-                      subtotal: double.parse(_subtotalController.text), 
-                      total: double.parse(_totalController.text));
-                    controller.updateSale(sale);
-                    Navigator.of(context).pushNamed('/sales');
-                  }
-                },
-                child: Text('Update Sale'),
-              )
-          
-        ],
-          )
-        )
-      )
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
