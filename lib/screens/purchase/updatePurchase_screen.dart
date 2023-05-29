@@ -51,9 +51,9 @@ class _UpdatePurchaseState extends State<UpdatePurchase> {
             name: document['name'],
             description: document['description'],
             units: document['units'],
-            cost: document['cost'],
-            price: document['price'],
-            utility: document['utility'],
+            cost: document['cost']+ 0.0,
+            price: document['price']+ 0.0,
+            utility: document['utility']+ 0.0,
           );
         }).toList();
       });
@@ -76,6 +76,7 @@ class _UpdatePurchaseState extends State<UpdatePurchase> {
     _piecesController.text = arguments['pieces'].toString();
     int aux = int.parse(_piecesController.text);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xff948c75),
       appBar: AppBar(
         backgroundColor: Color(0xff948c75),

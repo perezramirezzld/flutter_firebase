@@ -109,10 +109,11 @@ class _salescreenState extends State<salescreen> {
                 )),
                 child: Card(
                   child: ListTile(
-                    leading: const Icon(Icons.shopping_bag_outlined,
-                        color: Color(0xff7a6a53)),
+                    leading: Image.asset('assets/compra.png',
+                            width: 30, height: 30,),
                     title: Text(saleModel[index].name),
-                    subtitle: Text(saleModel[index].pieces.toString()),
+                    subtitle: Text('Units: ${saleModel[index].pieces} Total: \$${saleModel[index].total} '),
+                    
                     trailing: const Icon(
                       Icons.delete_sweep,
                       size: 23,
@@ -125,8 +126,8 @@ class _salescreenState extends State<salescreen> {
                         'IdProduct': saleModel[index].idProduct,
                         'name': saleModel[index].name,
                         'pieces': saleModel[index].pieces,
-                        'subtotal': saleModel[index].subtotal,
-                        'total': saleModel[index].total,
+                        'subtotal': saleModel[index].subtotal+0.0,
+                        'total': saleModel[index].total+0.0,
                       });
                       setState(() {});
                     },

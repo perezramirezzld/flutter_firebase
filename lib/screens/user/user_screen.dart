@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/service/firebase_service.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,12 @@ class _userscreenState extends State<userscreen> {
   StreamSubscription<QuerySnapshot>? _subscription;
   final controller = Get.put(DataController());
   List<User> userModel = [];
+    List<String> randomIcons = [
+    'assets/pana1.png',
+    'assets/pana2.png',
+    'assets/pana3.png',
+    // Agrega más iconos aquí según tus necesidades
+  ];
   @override
   void initState() {
     //controller.getAllProducts();
@@ -76,6 +83,8 @@ class _userscreenState extends State<userscreen> {
         body: ListView.builder(
           itemCount: userModel.length,
           itemBuilder: (BuildContext context, int index) {
+                        final randomIndex = Random().nextInt(randomIcons.length);
+            final randomImage = randomIcons[randomIndex];
             return Dismissible(
               onDismissed: (direction) async =>
                   await deleteUserF(userModel[index].uid?.toString() ?? ''),
@@ -109,9 +118,13 @@ class _userscreenState extends State<userscreen> {
               ),
               child: Card(
                 child: ListTile(
-                  leading: const Icon(Icons.account_circle),
+                  leading: Image.asset(
+                    randomImage,
+                    width: 30,
+                    height: 30,
+                  ),
                   title: Text(userModel[index].name),
-                  subtitle: Text('Cantidad: ${userModel[index].gender}'),
+                  subtitle: Text('Gender: ${userModel[index].gender}'),
                   trailing: Icon(
                     Icons.delete_sweep,
                     size: 23,

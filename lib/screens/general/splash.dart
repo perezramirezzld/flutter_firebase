@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> initData() async {
     await controller.getAllProducts();
     await controller.getAllSales();
-    await controller.getAllPurchases();
+    await controller.getAllPurchases(); 
     await controller.getAllUsers();
 
     Future.delayed(const Duration(milliseconds: 300), () {
@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amber,
+      
       body: Container(),
     );
   }

@@ -50,9 +50,9 @@ class _productscreenState extends State<productscreen> {
             name: document['name'],
             description: document['description'],
             units: document['units'],
-            cost: document['cost'],
-            price: document['price'],
-            utility: document['utility'],
+            cost: document['cost'] +0.0,
+            price: document['price'] +0.0,
+            utility: document['utility']+0.0,
           );
         }).toList();
       });
@@ -130,7 +130,7 @@ class _productscreenState extends State<productscreen> {
                     height: 30,
                   ),
                   title: Text(productModel[index].name),
-                  subtitle: Text('Cantidad: ${productModel[index].units}'),
+                  subtitle: Text(' Units: ${productModel[index].units} Price: ${productModel[index].price}'),
                   trailing: Icon(
                     Icons.delete_sweep,
                     size: 23,

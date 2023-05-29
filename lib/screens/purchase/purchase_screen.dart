@@ -59,9 +59,9 @@ class _purchasescreenState extends State<purchasescreen> {
             name: document['name'],
             description: document['description'],
             units: document['units'],
-            cost: document['cost'],
-            price: document['price'],
-            utility: document['utility'],
+            cost: document['cost'] +0.0,
+            price: document['price'] +0.0,
+            utility: document['utility'] +0.0,
           );
         }).toList();
       });
@@ -130,8 +130,13 @@ class _purchasescreenState extends State<purchasescreen> {
               ),
               child: Card(
                 child: ListTile(
+                                    leading: Image.asset(
+                    'assets/bolsapan.png',
+                    width: 30,
+                    height: 30,
+                  ),
                   title: Text(purchaseModel[index].name),
-                  subtitle: Text('Cantidad: ${purchaseModel[index].pieces}'),
+                  subtitle: Text('Units: ${purchaseModel[index].pieces}'),
                   trailing: Icon(
                     Icons.delete_sweep,
                     size: 23,

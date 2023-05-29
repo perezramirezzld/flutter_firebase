@@ -19,9 +19,9 @@ Future<List<Product>> getProducts() async {
         name: doc['name'],
         description: doc['description'],
         units: doc['units'] as int,
-        cost: doc['cost'] as double,
-        price: doc['price'] as double,
-        utility: doc['utility'] as double,
+        cost: doc['cost'] + 0.0,
+        price: doc['price'] + 0.0,
+        utility: doc['utility'] + 0.0,
         uid: doc.id,
       ),
     );
@@ -40,9 +40,9 @@ Future<List<Sale>> getSales() async {
       name: doc['name'],
       idProduct: doc['IdProduct'],
       idClient: doc['IdClient'],
-      pieces: doc['pieces'],
-      subtotal: doc['subtotal'],
-      total: doc['total'],
+      pieces: int.tryParse(doc['pieces'].toString()) ?? 0,
+      subtotal: doc['subtotal'] +0.0,
+      total: doc['total'] + 0.0,
       uid: doc.id,
     ));
   }
