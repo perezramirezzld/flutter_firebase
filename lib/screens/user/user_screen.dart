@@ -19,7 +19,7 @@ class _userscreenState extends State<userscreen> {
   StreamSubscription<QuerySnapshot>? _subscription;
   final controller = Get.put(DataController());
   List<User> userModel = [];
-    List<String> randomIcons = [
+  List<String> randomIcons = [
     'assets/pana1.png',
     'assets/pana2.png',
     'assets/pana3.png',
@@ -83,7 +83,7 @@ class _userscreenState extends State<userscreen> {
         body: ListView.builder(
           itemCount: userModel.length,
           itemBuilder: (BuildContext context, int index) {
-                        final randomIndex = Random().nextInt(randomIcons.length);
+            final randomIndex = Random().nextInt(randomIcons.length);
             final randomImage = randomIcons[randomIndex];
             return Dismissible(
               onDismissed: (direction) async =>

@@ -54,96 +54,95 @@ class _salescreenState extends State<salescreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F8EC),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Sales',
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'Arial  ',
-                fontWeight: FontWeight.normal)),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pushNamed(
-                  context, '/menu'); // Navegar a la página de inicio de sesión
-            },
-            child: Icon(Icons.roofing, color: Colors.white),
-          ),
-        ],
-        backgroundColor: const Color(0xff7a6a53),
-      ),
-      body: ListView.builder(
-          itemCount: saleModel.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Dismissible(
-                onDismissed: (direction) async =>
-                    await deleteSaleF(saleModel[index].uid?.toString() ?? ''),
-                confirmDismiss: ((direction) => showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('Are you sure?'),
-                        content: const Text('Do you want to remove this item?'),
-                        actions: [
-                          TextButton(
-                              onPressed: () => Navigator.of(context).pop(true),
-                              child: const Text('Yes')),
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(false),
-                            child: const Text('Cancel'),
-                          ),
-                        ],
-                      ),
-                    )),
-                direction: DismissDirection.endToStart,
-                key: Key(saleModel[index].uid.toString()),
-                background: Container(
-                    child: ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                      Colors.red.withOpacity(0.8), BlendMode.dstATop),
-                  child: Container(
-                    color: Color(0XFF9d870c),
-                  ),
-                )),
-                child: Card(
-                  child: ListTile(
-                    leading: Image.asset('assets/compra.png',
-                            width: 30, height: 30,),
-                    title: Text(saleModel[index].name),
-                    subtitle: Text('Units: ${saleModel[index].pieces} Total: \$${saleModel[index].total} '),
-                    
-                    trailing: const Icon(
-                      Icons.delete_sweep,
-                      size: 23,
-                      color: Color(0xffE1860A),
-                    ),
-                    onTap: () {
-                      Navigator.pushNamed(context, '/updateSale', arguments: {
-                        'uid': saleModel[index].uid,
-                        'IdClient': saleModel[index].idClient,
-                        'IdProduct': saleModel[index].idProduct,
-                        'name': saleModel[index].name,
-                        'pieces': saleModel[index].pieces,
-                        'subtotal': saleModel[index].subtotal+0.0,
-                        'total': saleModel[index].total+0.0,
-                      });
-                      setState(() {});
-                    },
-                  ),
-                ));
-          }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/addSale');
-        },
-        backgroundColor: const Color(0xffE1860A),
-        child: const Icon(
-          Icons.add_task_outlined,
-          size: 25,
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: const Color(0xFFF8F8EC),
+    appBar: AppBar(
+      automaticallyImplyLeading: false,
+      title: const Text('Sales',
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Arial',
+              fontWeight: FontWeight.normal)),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/menu'); // Navegar a la página de inicio de sesión
+          },
+          child: Icon(Icons.roofing, color: Colors.white),
         ),
+      ],
+      backgroundColor: const Color(0xff7a6a53),
+    ),
+    body: ListView.builder(
+      itemCount: saleModel.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Card(
+          child: ListTile(
+            leading: Image.asset(
+              'assets/compra.png',
+              width: 30,
+              height: 30,
+            ),
+            title: Text(saleModel[index].name),
+            subtitle: Text(
+                'Units: ${saleModel[index].pieces} Total: \$${saleModel[index].total}'),
+            trailing: IconButton(
+              icon: Icon(
+                Icons.delete_sweep,
+                size: 23,
+                color: Color(0xffE1860A),
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Are you sure?'),
+                    content: const Text('Do you want to remove this item?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                          controller.deleteSale(saleModel[index].uid?.toString() ?? '');
+                          initState();
+                        },
+                        child: const Text('Yes'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: const Text('Cancel'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, '/updateSale', arguments: {
+                'uid': saleModel[index].uid,
+                'IdClient': saleModel[index].idClient,
+                'IdProduct': saleModel[index].idProduct,
+                'name': saleModel[index].name,
+                'pieces': saleModel[index].pieces,
+                'subtotal': saleModel[index].subtotal + 0.0,
+                'total': saleModel[index].total + 0.0,
+              });
+              setState(() {});
+            },
+          ),
+        );
+      },
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: () {
+        Navigator.pushNamed(context, '/addSale');
+      },
+      backgroundColor: const Color(0xffE1860A),
+      child: const Icon(
+        Icons.add_task_outlined,
+        size: 25,
       ),
-    );
-  }
+    ),
+  );
+}
 }
