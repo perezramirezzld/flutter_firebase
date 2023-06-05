@@ -49,13 +49,14 @@ Future<List<Sale>> getSales() async {
   return salesModel;
 }
 
-Future<List<User>> getUsers() async {
-  List<User> usersModel = [];
+Future<List<UserLocal>> getUsers() async {
+  List<UserLocal> usersModel = [];
   QuerySnapshot queryproduct = await db.collection('user').get();
   for (var doc in queryproduct.docs) {
-    usersModel.add(User(
+    usersModel.add(UserLocal(
       name: doc['name'],
       lastname: doc['lastname'],
+      role: doc['role'],
       age: doc['age'],
       gender: doc['gender'],
       email: doc['email'],
@@ -67,6 +68,7 @@ print(usersModel.length);
 
   return usersModel;
 }
+
 
 Future<List<Purchase>> getPurchases() async {
   List<Purchase> purchasesModel = [];
@@ -93,6 +95,34 @@ Future<void> postProduct(Product product) async {
     'utility': product.utility,
   });
 }
+Future<void> infoAdicional(String uid, UserLocal user) async {
+    try{
+      CollectionReference users = FirebaseFirestore.instance.collection('user');
+
+      await users.doc(uid).set({
+        'name': user.name,
+        'lastname': user.lastname,
+        'role': user.role,
+        'age': user.age+0,
+        'gender': user.gender,
+        'email': user.email,
+        'password': user.password,
+      });
+      print('Se ha creado el usuario');
+    }catch(e){
+      print('Error al crear el usuario');
+    }
+  
+    // UserLocal user = UserLocal(
+    //   name: _nameController.text,
+    //   lastname: _lastnameController.text,
+    //   age: int.parse(_ageController.text),
+    //   gender: _genderController.text,
+    //   email: _emailController.text,
+    //   password: _passwordController.text,
+    // );
+    // controller.addUser(user);
+  }
 
 
 Future<void> postSale(Sale sale) async {
@@ -106,10 +136,11 @@ Future<void> postSale(Sale sale) async {
   });
 }
 
-Future<void> postUser(User user) async {
+Future<void> postUser(UserLocal user) async {
   await db.collection("user").add({
     'name': user.name,
     'lastname': user.lastname,
+    'role': user.role,
     'age': user.age,
     'gender': user.gender,
     'email': user.email,
@@ -165,10 +196,11 @@ Future<void> updateSaleF(Sale sale) async {
   });
 }
 
-Future<void> updateUserF(User user) async {
+Future<void> updateUserF(UserLocal user) async {
   await db.collection('user').doc(user.uid).set({
     'name': user.name,
     'lastname': user.lastname,
+    'role': user.role, // 'admin' or 'user' or 'seller'
     'age': user.age,
     'gender': user.gender,
     'email': user.email,

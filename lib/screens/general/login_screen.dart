@@ -1,19 +1,52 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_firebase/screens/componentes/boton_login.dart';
 import 'package:flutter_firebase/screens/componentes/textfield_login.dart';
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../credentials/credential.dart';
 
 class login_Screen extends StatelessWidget {
   login_Screen({Key? key}) : super(key: key);
+
   // text editing controllers
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  String name = "a";
-  String password = "a";
+  String name = "";
+  String password = "";
+  User? user;
+
+  Future<void> signIn(String email, String password, Function callback) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      GlobalVariables.userCredential = userCredential;
+
+      // El inicio de sesión fue exitoso
+      user = userCredential.user;
+      callback();
+      // Realiza las acciones necesarias después del inicio de sesión exitoso
+    } on FirebaseAuthException catch (e) {
+      // Maneja los errores de inicio de sesión aquí
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    void navigateToMenu() {
+      Navigator.pushNamed(context, '/menu');
+    }
+
     return Scaffold(
       backgroundColor: Color(0xfff8fef4),
       body: SingleChildScrollView(
@@ -63,15 +96,35 @@ class login_Screen extends StatelessWidget {
                     ),
                   ),
                 ),
+                // SizedBox(height: 8.0),
+                // Align(
+                //   alignment: Alignment.centerRight,
+                //   child: GestureDetector(
+                //     onTap: () {
+                //       // Aquí puedes realizar la acción al hacer clic en el texto
+                //       // Por ejemplo, navegar a la pantalla de registro
+                //       Navigator.pushNamed(context, '/register');
+                //     },
+                //     child: Text(
+                //       'Register new user',
+                //       style: TextStyle(
+                //         color: Colors.blue,
+                //         decoration: TextDecoration.underline,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 32.0),
                 ElevatedButton(
-                  child: Text('Sing in'),
+                  child: Text('Sign in'),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Realizar el registro
                       name = _usernameController.text;
                       password = _passwordController.text;
-                      Navigator.pushNamed(context, '/menu');
+
+                      // Navigator.pushNamed(context, '/menu');
+                      signIn(name, password, navigateToMenu);
                       // Aquí puedes realizar el registro utilizando la información del formulario
                     }
                   },

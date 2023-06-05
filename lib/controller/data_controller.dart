@@ -8,7 +8,7 @@ import '../service/firebase_service.dart';
 
 class DataController extends GetxController {
   final sales = <Sale>[].obs;
-  final users = <User>[].obs;
+  final users = <UserLocal>[].obs;
   final products = <Product>[].obs;
   final purchases = <Purchase>[].obs;
 
@@ -49,7 +49,7 @@ class DataController extends GetxController {
     await getAllProducts();
   }
 
-  Future<void> addUser(User user) async {
+  Future<void> addUser(UserLocal user) async {
     await postUser(user);
     await getAllUsers();
   }
@@ -79,7 +79,7 @@ class DataController extends GetxController {
   //   await getAllProducts();
   // }
 
-  Future<void> updateUser(User user) async {
+  Future<void> updateUser(UserLocal user) async {
     await updateUserF(user);
     await getAllUsers();
   }

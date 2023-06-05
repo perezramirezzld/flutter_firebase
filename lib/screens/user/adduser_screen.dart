@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_firebase/screens/product/product_screen.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../controller/data_controller.dart';
 import '../../models/user_model.dart';
@@ -18,6 +20,7 @@ class adduser extends StatefulWidget {
 final _formKey = GlobalKey<FormState>();
 final _nameController = TextEditingController();
 final _lastnameController = TextEditingController();
+final _roleController = TextEditingController();
 final _ageController = TextEditingController();
 final _genderController = TextEditingController();
 final _emailController = TextEditingController();
@@ -25,6 +28,9 @@ final _passwordController = TextEditingController();
 
 class _adduserState extends State<adduser> {
   final controller = Get.put(DataController());
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String? _selectedRole;
+
   @override
   void initState() {
     clear();
@@ -39,16 +45,30 @@ class _adduserState extends State<adduser> {
     });
   }
 
-  Future<void> agregar() async {
-    User user = User(
-      name: _nameController.text,
-      lastname: _lastnameController.text,
-      age: int.parse(_ageController.text),
-      gender: _genderController.text,
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
-    controller.addUser(user);
+  // UserLocal user = UserLocal(
+  //   name: _nameController.text,
+  //   lastname: _lastnameController.text,
+  //   age: int.parse(_ageController.text),
+  //   gender: _genderController.text,
+  //   email: _emailController.text,
+  //   password: _passwordController.text,
+  // );
+  // controller.addUser(user);
+
+  void registrarUsuario(UserLocal userL) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: userL.email,
+        password: userL.password,
+      );
+
+      User? user = userCredential.user;
+
+      await infoAdicional(user!.uid, userL);
+    } catch (e) {
+      print('Error al registrar el usuario');
+    }
   }
 
   void clear() {
@@ -72,7 +92,7 @@ class _adduserState extends State<adduser> {
           key: _formKey,
           child: Padding(
             padding: const EdgeInsets.only(
-              top: 90.0,
+              top: 30.0,
               left: 30.0,
               right: 30.0,
               bottom: 100.0,
@@ -133,7 +153,7 @@ class _adduserState extends State<adduser> {
                           }
                           return null;
                         },
-                      ),
+                      ),                      
                       TextFormField(
                         controller: _ageController,
                         decoration: const InputDecoration(labelText: 'Age'),
@@ -180,11 +200,49 @@ class _adduserState extends State<adduser> {
                           return null;
                         },
                       ),
+                      SizedBox(height: 20),
+                      DropdownButtonFormField<String>(
+                        value: _selectedRole,
+                        items: [
+                          DropdownMenuItem(
+                            value: 'Admin',
+                            child: Text('Admin'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'User',
+                            child: Text('User'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'Seller',
+                            child: Text('Seller'),
+                          ),
+                        ],
+                        onChanged: (String? newvalue) {
+                          setState(() {
+                            _selectedRole = newvalue;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Role',
+                          border: OutlineInputBorder(),
+                        ),
+                        
+                      ),
+                      
                       SizedBox(height: 35),
                       ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            agregar();
+                            UserLocal userL = UserLocal(
+                              name: _nameController.text,
+                              lastname: _lastnameController.text,
+                              role: _selectedRole!,
+                              age: int.parse(_ageController.text),
+                              gender: _genderController.text,
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            );
+                            registrarUsuario(userL);
                             initData();
                           }
                         },

@@ -18,7 +18,7 @@ class userscreen extends StatefulWidget {
 class _userscreenState extends State<userscreen> {
   StreamSubscription<QuerySnapshot>? _subscription;
   final controller = Get.put(DataController());
-  List<User> userModel = [];
+  List<UserLocal> userModel = [];
   List<String> randomIcons = [
     'assets/pana1.png',
     'assets/pana2.png',
@@ -40,10 +40,11 @@ class _userscreenState extends State<userscreen> {
         .listen((QuerySnapshot snapshot) {
       setState(() {
         userModel = snapshot.docs.map((DocumentSnapshot document) {
-          return User(
+          return UserLocal(
             uid: document.id,
             name: document['name'],
             lastname: document['lastname'],
+            role: document['role'],
             age: document['age'],
             gender: document['gender'],
             email: document['email'],
@@ -134,6 +135,7 @@ class _userscreenState extends State<userscreen> {
                     Navigator.pushNamed(context, "/updateUser", arguments: {
                       'name': userModel[index].name,
                       'lastname': userModel[index].lastname,
+                      'role': userModel[index].role, 
                       'age': userModel[index].age,
                       'gender': userModel[index].gender,
                       'email': userModel[index].email,

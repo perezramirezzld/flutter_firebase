@@ -30,7 +30,7 @@ class TextFormField_login extends StatelessWidget {
         hintText: labelText,
       ),
       validator: (value) {
-        if (value!.isEmpty || value != valor) {
+        if (value!.isEmpty) {
           return 'Please enter a valid ${labelText}';
         }
         return null;
