@@ -55,6 +55,10 @@ class _userscreenState extends State<userscreen> {
     });
   }
 
+  void deleteUsers(String Suid) {
+    controller.deleteUser(Suid);
+  }
+
   Future<void> initData() async {
     await controller.getAllUsers();
   }
@@ -86,65 +90,59 @@ class _userscreenState extends State<userscreen> {
           itemBuilder: (BuildContext context, int index) {
             final randomIndex = Random().nextInt(randomIcons.length);
             final randomImage = randomIcons[randomIndex];
-            return Dismissible(
-              onDismissed: (direction) async =>
-                  await deleteUserF(userModel[index].uid?.toString() ?? ''),
-              confirmDismiss: ((direction) => showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Are you sure?'),
-                      content: const Text('Do you want to remove this item?'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(true),
-                          child: const Text('Yes'),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(false),
-                          child: const Text('Cancel'),
-                        ),
-                      ],
-                    ),
-                  )),
-              direction: DismissDirection.endToStart,
-              key: Key(userModel[index].uid.toString()),
-              background: Container(
-                child: ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                      Colors.red.withOpacity(0.8), BlendMode.dstATop),
-                  child: Container(
-                    color: Color(0XFF9d870c),
-                  ),
+            return Card(
+              child: ListTile(
+                leading: Image.asset(
+                  randomImage,
+                  width: 30,
+                  height: 30,
                 ),
-              ),
-              child: Card(
-                child: ListTile(
-                  leading: Image.asset(
-                    randomImage,
-                    width: 30,
-                    height: 30,
-                  ),
-                  title: Text(userModel[index].name),
-                  subtitle: Text('Gender: ${userModel[index].gender}'),
-                  trailing: Icon(
+                title: Text(userModel[index].name),
+                subtitle: Text('Gender: ${userModel[index].gender}'),
+                trailing: IconButton(
+                  icon: Icon(
                     Icons.delete_sweep,
                     size: 23,
                     color: Color(0xffE1860A),
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(context, "/updateUser", arguments: {
-                      'name': userModel[index].name,
-                      'lastname': userModel[index].lastname,
-                      'role': userModel[index].role, 
-                      'age': userModel[index].age,
-                      'gender': userModel[index].gender,
-                      'email': userModel[index].email,
-                      'password': userModel[index].password,
-                      'uid': userModel[index].uid,
-                    });
-                    setState(() {});
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Are you sure?'),
+                        content: const Text('Do you want to remove this item?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(true);
+                              deleteUsers(
+                                  userModel[index].uid?.toString() ?? '');
+                              initState();
+                            },
+                            child: const Text('Yes'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text('Cancel'),
+                          ),
+                        ],
+                      ),
+                    );
                   },
                 ),
+                onTap: () {
+                  Navigator.pushNamed(context, "/updateUser", arguments: {
+                    'name': userModel[index].name,
+                    'lastname': userModel[index].lastname,
+                    'role': userModel[index].role,
+                    'age': userModel[index].age,
+                    'gender': userModel[index].gender,
+                    'email': userModel[index].email,
+                    'password': userModel[index].password,
+                    'uid': userModel[index].uid,
+                  });
+                  setState(() {});
+                },
               ),
             );
           },

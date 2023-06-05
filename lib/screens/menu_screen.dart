@@ -56,8 +56,9 @@ void roles() async {
     }
   }
 }
-void showAlert(BuildContext context, String message){
-    showDialog(
+
+void showAlert(BuildContext context, String message) {
+  showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
@@ -75,7 +76,7 @@ void showAlert(BuildContext context, String message){
       );
     },
   );
-  }
+}
 
 class _menuscreenState extends State<menuscreen> {
   @override
@@ -114,15 +115,16 @@ class _menuscreenState extends State<menuscreen> {
                   onPressed: () {
                     if (registro) {
                       Navigator.pushNamed(context, '/users');
-                    }else{
-                      showAlert(context, "No tienes persmios para acceder a esta sección");
+                    } else {
+                      showAlert(context,
+                          "No tienes persmios para acceder a esta sección");
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff7a6a53),
                     fixedSize: Size(150, 50),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
@@ -143,15 +145,16 @@ class _menuscreenState extends State<menuscreen> {
                   onPressed: () {
                     if (productos) {
                       Navigator.pushNamed(context, '/products');
-                    }else{
-                      showAlert(context, "No tienes persmios para acceder a esta sección");
+                    } else {
+                      showAlert(context,
+                          "No tienes persmios para acceder a esta sección");
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff7a6a53),
                     fixedSize: Size(150, 50),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
@@ -172,15 +175,16 @@ class _menuscreenState extends State<menuscreen> {
                   onPressed: () {
                     if (ventas) {
                       Navigator.pushNamed(context, '/sales');
-                    }else{
-                      showAlert(context, "No tienes persmios para acceder a esta sección");
+                    } else {
+                      showAlert(context,
+                          "No tienes persmios para acceder a esta sección");
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff7a6a53),
                     fixedSize: Size(150, 50),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
@@ -201,15 +205,16 @@ class _menuscreenState extends State<menuscreen> {
                   onPressed: () {
                     if (compras) {
                       Navigator.pushNamed(context, '/purchases');
-                    }else{
-                      showAlert(context, "No tienes persmios para acceder a esta sección");
+                    } else {
+                      showAlert(context,
+                          "No tienes persmios para acceder a esta sección");
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff7a6a53),
                     fixedSize: Size(150, 50),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(

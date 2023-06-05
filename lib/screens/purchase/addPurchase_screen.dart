@@ -38,16 +38,6 @@ class _addpurchaseState extends State<addpurchase> {
     super.initState();
   }
 
-  Future<void> agregar() async {
-    Purchase purchase = Purchase(
-      name: selectedProduct!.name,
-      pieces: int.parse(_piecesController.text),
-    );
-
-    updateUnits(selectedProduct!.uid!, newPieces);
-    controller.addPurchase(purchase);
-  }
-
   void _subscribeToProducts() {
     _subscription = FirebaseFirestore.instance
         .collection('product')
@@ -60,13 +50,22 @@ class _addpurchaseState extends State<addpurchase> {
             name: document['name'],
             description: document['description'],
             units: document['units'],
-            cost: document['cost']+ 0.0,
-            price: document['price']+ 0.0,
-            utility: document['utility']+ 0.0,
+            cost: document['cost'] + 0.0,
+            price: document['price'] + 0.0,
+            utility: document['utility'] + 0.0,
           );
         }).toList();
       });
     });
+  }
+
+  void agregar() {
+    Purchase purchase = Purchase(
+      name: selectedProduct!.name,
+      pieces: int.parse(_piecesController.text),
+    );
+    updateUnits(selectedProduct!.uid!, newPieces);
+    controller.addPurchase(purchase);
   }
 
   void clear() {
@@ -178,13 +177,7 @@ class _addpurchaseState extends State<addpurchase> {
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          Purchase purchase = Purchase(
-      name: selectedProduct!.name,
-      pieces: int.parse(_piecesController.text),
-    );
-
-    updateUnits(selectedProduct!.uid!, newPieces);
-    controller.addPurchase(purchase);
+                          agregar();
                           Navigator.of(context).pushNamed('/purchases');
                         }
                       },

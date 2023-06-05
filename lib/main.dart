@@ -11,7 +11,6 @@ import 'package:flutter_firebase/screens/purchase/purchase_screen.dart';
 import 'package:flutter_firebase/screens/purchase/updatePurchase_screen.dart';
 import 'package:flutter_firebase/screens/sale/sale_screen.dart';
 import 'package:flutter_firebase/screens/general/splash.dart';
-import 'package:flutter_firebase/screens/sale/upSale_screen.dart';
 import 'package:flutter_firebase/screens/user/adduser_screen.dart';
 import 'package:flutter_firebase/screens/user/updateuser_screen.dart';
 import 'package:flutter_firebase/screens/user/user_screen.dart';
@@ -30,7 +29,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -52,7 +50,6 @@ class MyApp extends StatelessWidget {
         //update
         '/updateUser': (context) => update_user(),
         '/updatePurchase': (context) => UpdatePurchase(),
-        '/updateSale': (context) => const UpdateSales(),
         '/updateProduct': (context) => const UpdateProduct(),
 
         '/splash': (context) => SplashScreen(),

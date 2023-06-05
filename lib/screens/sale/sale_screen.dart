@@ -155,18 +155,6 @@ class _salescreenState extends State<salescreen> {
                   );
                 },
               ),
-              onTap: () {
-                Navigator.pushNamed(context, '/updateSale', arguments: {
-                  'uid': saleModel[index].uid,
-                  'IdClient': saleModel[index].idClient,
-                  'IdProduct': saleModel[index].idProduct,
-                  'name': saleModel[index].name,
-                  'pieces': saleModel[index].pieces,
-                  'subtotal': saleModel[index].subtotal + 0.0,
-                  'total': saleModel[index].total + 0.0,
-                });
-                setState(() {});
-              },
             ),
           );
         },
