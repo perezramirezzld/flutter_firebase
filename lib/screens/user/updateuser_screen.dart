@@ -49,12 +49,12 @@ class _update_userState extends State<update_user> {
       Navigator.of(context).pushNamed('/users');
     });
   }
-  void showAlert(BuildContext context, String errorMessage){
+  void showAlert(BuildContext context, String exitoMessage,String errorMessage){
     showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Error'),
+        title: Text(exitoMessage),
         content: Text(errorMessage),
         actions: [
           TextButton(
@@ -90,7 +90,7 @@ class _update_userState extends State<update_user> {
       }
       try {
         controller.updateUser(usr);
-        showAlert(context, 'Credenciales actualizadas correctamente');
+        showAlert(context,'Acción realizada con éxito' ,'Credenciales actualizadas correctamente');
       } catch (e) {
         print('Error al actualizar info del usuario: $e');
       }
@@ -98,7 +98,7 @@ class _update_userState extends State<update_user> {
       print('No user signed in');
     }}
     else{
-      showAlert(context, 'No se puede actualizar información de otro usuario.');
+      showAlert(context, 'Error','No se puede actualizar información de otro usuario.');
 
       print('No se puede actualizar información de otro usuario');
     }

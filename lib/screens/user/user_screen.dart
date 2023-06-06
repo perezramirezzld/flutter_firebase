@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/service/firebase_service.dart';
 import 'package:get/get.dart';
@@ -55,8 +56,58 @@ class _userscreenState extends State<userscreen> {
     });
   }
 
-  void deleteUsers(String Suid) {
-    controller.deleteUser(Suid);
+  // void deleteUsers(String Suid) {
+  //   controller.deleteUser(Suid);
+  // }
+
+  void showAlert(
+      BuildContext context, String exitoMessage, String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(exitoMessage),
+          content: Text(errorMessage),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/users');
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> deleteUser(BuildContext context, String uid) async {
+    User? user = await FirebaseAuth.instance.currentUser;
+
+    if (user!.uid == uid) {
+      if (user != null) {
+        try {
+          await user.delete();
+          print('Usuario eliminado (autenticado)');
+        } catch (e) {
+          print('Error al actualizar email: $e');
+        }
+        try {
+          controller.deleteUser(uid);
+          showAlert(context, 'Operación exitosa', 'Usuario eliminado exitosamente');
+          Navigator.pushNamed(context, "/menu");
+          
+        } catch (e) {
+          print('Error al actualizar info del usuario: $e');
+        }
+      } else {
+        print('No user signed in');
+      }
+    } else {
+      showAlert(context,'Error' ,'No se puede actualizar información de otro usuario.');
+
+      print('No se puede actualizar información de otro usuario');
+    }
   }
 
   Future<void> initData() async {
@@ -115,8 +166,10 @@ class _userscreenState extends State<userscreen> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(true);
-                              deleteUsers(
+                              deleteUser(context,
                                   userModel[index].uid?.toString() ?? '');
+                                  Navigator.pushNamed(context, "/login");
+
                               initState();
                             },
                             child: const Text('Yes'),
