@@ -61,6 +61,7 @@ class _addpurchaseState extends State<addpurchase> {
 
   void agregar() {
     Purchase purchase = Purchase(
+      idProduct: selectedProduct!.uid!,
       name: selectedProduct!.name,
       pieces: int.parse(_piecesController.text),
     );

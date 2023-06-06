@@ -41,7 +41,7 @@ Future<List<Sale>> getSales() async {
       idProduct: doc['IdProduct'],
       idClient: doc['IdClient'],
       pieces: int.tryParse(doc['pieces'].toString()) ?? 0,
-      subtotal: doc['subtotal'] +0.0,
+      subtotal: doc['subtotal'] + 0.0,
       total: doc['total'] + 0.0,
       uid: doc.id,
     ));
@@ -64,17 +64,17 @@ Future<List<UserLocal>> getUsers() async {
       uid: doc.id,
     ));
   }
-print(usersModel.length);
+  print(usersModel.length);
 
   return usersModel;
 }
-
 
 Future<List<Purchase>> getPurchases() async {
   List<Purchase> purchasesModel = [];
   QuerySnapshot queryproduct = await db.collection('purchase').get();
   for (var doc in queryproduct.docs) {
     purchasesModel.add(Purchase(
+      idProduct: doc['IdProduct'],
       name: doc['name'],
       pieces: doc['pieces'],
       uid: doc.id,
@@ -95,35 +95,35 @@ Future<void> postProduct(Product product) async {
     'utility': product.utility,
   });
 }
-Future<void> infoAdicional(String uid, UserLocal user) async {
-    try{
-      CollectionReference users = FirebaseFirestore.instance.collection('user');
 
-      await users.doc(uid).set({
-        'name': user.name,
-        'lastname': user.lastname,
-        'role': user.role,
-        'age': user.age+0,
-        'gender': user.gender,
-        'email': user.email,
-        'password': user.password,
-      });
-      print('Se ha creado el usuario');
-    }catch(e){
-      print('Error al crear el usuario');
-    }
-  
-    // UserLocal user = UserLocal(
-    //   name: _nameController.text,
-    //   lastname: _lastnameController.text,
-    //   age: int.parse(_ageController.text),
-    //   gender: _genderController.text,
-    //   email: _emailController.text,
-    //   password: _passwordController.text,
-    // );
-    // controller.addUser(user);
+Future<void> infoAdicional(String uid, UserLocal user) async {
+  try {
+    CollectionReference users = FirebaseFirestore.instance.collection('user');
+
+    await users.doc(uid).set({
+      'name': user.name,
+      'lastname': user.lastname,
+      'role': user.role,
+      'age': user.age + 0,
+      'gender': user.gender,
+      'email': user.email,
+      'password': user.password,
+    });
+    print('Se ha creado el usuario');
+  } catch (e) {
+    print('Error al crear el usuario');
   }
 
+  // UserLocal user = UserLocal(
+  //   name: _nameController.text,
+  //   lastname: _lastnameController.text,
+  //   age: int.parse(_ageController.text),
+  //   gender: _genderController.text,
+  //   email: _emailController.text,
+  //   password: _passwordController.text,
+  // );
+  // controller.addUser(user);
+}
 
 Future<void> postSale(Sale sale) async {
   await db.collection('sale').add({
@@ -150,6 +150,7 @@ Future<void> postUser(UserLocal user) async {
 
 Future<void> postPurchase(Purchase purchase) async {
   await db.collection("purchase").add({
+    'IdProduct': purchase.idProduct,
     'name': purchase.name,
     'pieces': purchase.pieces,
   });
@@ -184,7 +185,6 @@ Future<void> updateUnits(String uid, int i) async {
   });
 }
 
-
 Future<void> updateSaleF(Sale sale) async {
   await db.collection('sale').doc(sale.uid).set({
     'name': sale.name,
@@ -210,6 +210,7 @@ Future<void> updateUserF(UserLocal user) async {
 
 Future<void> updatePurchaseF(Purchase purchase) async {
   await db.collection('purchase').doc(purchase.uid).set({
+    'IdProduct': purchase.idProduct,
     'name': purchase.name,
     'pieces': purchase.pieces,
   });
@@ -224,7 +225,6 @@ Future<void> deleteProductF(String uid) async {
 Future<void> deleteUserF(String uid) async {
   await db.collection('user').doc(uid).delete();
 }
-
 
 Future<void> deletePurchaseF(String uid) async {
   await db.collection('purchase').doc(uid).delete();

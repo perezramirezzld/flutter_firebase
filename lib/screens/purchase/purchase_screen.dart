@@ -39,6 +39,7 @@ class _purchasescreenState extends State<purchasescreen> {
         purchaseModel = snapshot.docs.map((DocumentSnapshot document) {
           return Purchase(
             uid: document.id,
+            idProduct: document['IdProduct'],
             name: document['name'],
             pieces: document['pieces'],
           );
@@ -59,13 +60,22 @@ class _purchasescreenState extends State<purchasescreen> {
             name: document['name'],
             description: document['description'],
             units: document['units'],
-            cost: document['cost'] +0.0,
-            price: document['price'] +0.0,
-            utility: document['utility'] +0.0,
+            cost: document['cost'] + 0.0,
+            price: document['price'] + 0.0,
+            utility: document['utility'] + 0.0,
           );
         }).toList();
       });
     });
+  }
+
+  void deletePurchase(String uidP, String uid, int pcs) {
+    int units =
+        productModel[productModel.indexWhere((element) => element.uid == uid)]
+            .units;
+    int newpieces = units - pcs;
+    updateUnits(uid, newpieces);
+    controller.detelePurchase(uidP);
   }
 
   Future<void> initData() async {
@@ -97,58 +107,47 @@ class _purchasescreenState extends State<purchasescreen> {
         body: ListView.builder(
           itemCount: purchaseModel.length,
           itemBuilder: (BuildContext context, int index) {
-            return Dismissible(
-              onDismissed: (direction) async => await controller
-                  .detelePurchase(purchaseModel[index].uid?.toString() ?? ''),
-              confirmDismiss: ((direction) => showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Are you sure?'),
-                      content: const Text('Do you want to remove this item?'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(true),
-                          child: const Text('Yes'),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(false),
-                          child: const Text('Cancel'),
-                        ),
-                      ],
-                    ),
-                  )),
-              direction: DismissDirection.endToStart,
-              key: Key(purchaseModel[index].uid.toString()),
-              background: Container(
-                child: ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                      Colors.red.withOpacity(0.8), BlendMode.dstATop),
-                  child: Container(
-                    color: Color(0XFF9d870c),
-                  ),
+            return Card(
+              child: ListTile(
+                leading: Image.asset(
+                  'assets/bolsapan.png',
+                  width: 30,
+                  height: 30,
                 ),
-              ),
-              child: Card(
-                child: ListTile(
-                                    leading: Image.asset(
-                    'assets/bolsapan.png',
-                    width: 30,
-                    height: 30,
-                  ),
-                  title: Text(purchaseModel[index].name),
-                  subtitle: Text('Units: ${purchaseModel[index].pieces}'),
-                  trailing: Icon(
+                title: Text(purchaseModel[index].name),
+                subtitle: Text('Units: ${purchaseModel[index].pieces}'),
+                trailing: IconButton(
+                  icon: Icon(
                     Icons.delete_sweep,
                     size: 23,
                     color: Color(0xffE1860A),
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(context, "/updatePurchase", arguments: {
-                      'name': purchaseModel[index].name,
-                      'pieces': purchaseModel[index].pieces,
-                      'uid': purchaseModel[index].uid,
-                    });
-                    setState(() {});
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Are you sure?'),
+                        content: const Text('Do you want to remove this item?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(true);
+                              deletePurchase(
+                                  purchaseModel[index].uid?.toString() ?? '',
+                                  purchaseModel[index].idProduct?.toString() ??
+                                      '',
+                                  purchaseModel[index].pieces);
+                              initState();
+                            },
+                            child: const Text('Yes'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text('Cancel'),
+                          ),
+                        ],
+                      ),
+                    );
                   },
                 ),
               ),

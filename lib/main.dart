@@ -8,7 +8,6 @@ import 'package:flutter_firebase/screens/product/product_screen.dart';
 import 'package:flutter_firebase/screens/product/upproduct_screen.dart';
 import 'package:flutter_firebase/screens/purchase/addPurchase_screen.dart';
 import 'package:flutter_firebase/screens/purchase/purchase_screen.dart';
-import 'package:flutter_firebase/screens/purchase/updatePurchase_screen.dart';
 import 'package:flutter_firebase/screens/sale/sale_screen.dart';
 import 'package:flutter_firebase/screens/general/splash.dart';
 import 'package:flutter_firebase/screens/user/adduser_screen.dart';
@@ -49,7 +48,6 @@ class MyApp extends StatelessWidget {
         '/addUser': (context) => adduser(),
         //update
         '/updateUser': (context) => update_user(),
-        '/updatePurchase': (context) => UpdatePurchase(),
         '/updateProduct': (context) => const UpdateProduct(),
 
         '/splash': (context) => SplashScreen(),
