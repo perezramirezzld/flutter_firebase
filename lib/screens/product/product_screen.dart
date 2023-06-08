@@ -50,9 +50,9 @@ class _productscreenState extends State<productscreen> {
             name: document['name'],
             description: document['description'],
             units: document['units'],
-            cost: document['cost'] +0.0,
-            price: document['price'] +0.0,
-            utility: document['utility']+0.0,
+            cost: document['cost'] + 0.0,
+            price: document['price'] + 0.0,
+            utility: document['utility'] + 0.0,
           );
         }).toList();
       });
@@ -66,7 +66,7 @@ class _productscreenState extends State<productscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xFFF8F8EC),
+        backgroundColor: const Color(0xFFf8fef4),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: const Text('Products',
@@ -130,7 +130,8 @@ class _productscreenState extends State<productscreen> {
                     height: 30,
                   ),
                   title: Text(productModel[index].name),
-                  subtitle: Text(' Units: ${productModel[index].units} Price: ${productModel[index].price}'),
+                  subtitle: Text(
+                      ' Units: ${productModel[index].units} Price: ${productModel[index].price}'),
                   trailing: Icon(
                     Icons.delete_sweep,
                     size: 23,

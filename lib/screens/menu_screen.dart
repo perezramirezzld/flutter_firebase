@@ -99,7 +99,7 @@ class _menuscreenState extends State<menuscreen> {
               children: <Widget>[
                 const SizedBox(height: 20, width: 300),
                 Text(
-                  'Welcome to Fresh bread!',
+                  'Welcome to Cuasó!',
                   style: TextStyle(
                     color: Colors.grey[600],
                     fontSize: 17,

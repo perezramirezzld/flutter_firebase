@@ -85,7 +85,7 @@ class _purchasescreenState extends State<purchasescreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xFFF8F8EC),
+        backgroundColor: const Color(0xFFf8fef4),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: const Text('Purchase',

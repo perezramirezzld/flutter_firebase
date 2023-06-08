@@ -94,9 +94,9 @@ class _userscreenState extends State<userscreen> {
         }
         try {
           controller.deleteUser(uid);
-          showAlert(context, 'Operación exitosa', 'Usuario eliminado exitosamente');
+          showAlert(
+              context, 'Operación exitosa', 'Usuario eliminado exitosamente');
           Navigator.pushNamed(context, "/menu");
-          
         } catch (e) {
           print('Error al actualizar info del usuario: $e');
         }
@@ -104,7 +104,8 @@ class _userscreenState extends State<userscreen> {
         print('No user signed in');
       }
     } else {
-      showAlert(context,'Error' ,'No se puede actualizar información de otro usuario.');
+      showAlert(context, 'Error',
+          'No se puede actualizar información de otro usuario.');
 
       print('No se puede actualizar información de otro usuario');
     }
@@ -117,7 +118,7 @@ class _userscreenState extends State<userscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xFFF8F8EC),
+        backgroundColor: const Color(0xFFf8fef4),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: const Text('Users',
@@ -168,7 +169,7 @@ class _userscreenState extends State<userscreen> {
                               Navigator.of(context).pop(true);
                               deleteUser(context,
                                   userModel[index].uid?.toString() ?? '');
-                                  Navigator.pushNamed(context, "/login");
+                              Navigator.pushNamed(context, "/login");
 
                               initState();
                             },

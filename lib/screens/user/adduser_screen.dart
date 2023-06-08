@@ -133,6 +133,33 @@ class _adduserState extends State<adduser> {
                         ),
                       ),
                       SizedBox(height: 20),
+                      DropdownButtonFormField<String>(
+                        value: _selectedRole,
+                        items: [
+                          DropdownMenuItem(
+                            value: 'Admin',
+                            child: Text('Admin'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'User',
+                            child: Text('User'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'Seller',
+                            child: Text('Seller'),
+                          ),
+                        ],
+                        onChanged: (String? newvalue) {
+                          setState(() {
+                            _selectedRole = newvalue;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Role',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      SizedBox(height: 20),
                       TextFormField(
                         controller: _nameController,
                         decoration: const InputDecoration(labelText: 'Name'),
@@ -153,7 +180,7 @@ class _adduserState extends State<adduser> {
                           }
                           return null;
                         },
-                      ),                      
+                      ),
                       TextFormField(
                         controller: _ageController,
                         decoration: const InputDecoration(labelText: 'Age'),
@@ -200,35 +227,6 @@ class _adduserState extends State<adduser> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 20),
-                      DropdownButtonFormField<String>(
-                        value: _selectedRole,
-                        items: [
-                          DropdownMenuItem(
-                            value: 'Admin',
-                            child: Text('Admin'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'User',
-                            child: Text('User'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Seller',
-                            child: Text('Seller'),
-                          ),
-                        ],
-                        onChanged: (String? newvalue) {
-                          setState(() {
-                            _selectedRole = newvalue;
-                          });
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Role',
-                          border: OutlineInputBorder(),
-                        ),
-                        
-                      ),
-                      
                       SizedBox(height: 35),
                       ElevatedButton(
                         onPressed: () async {
