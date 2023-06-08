@@ -159,7 +159,6 @@ class _adduserState extends State<adduser> {
                           border: OutlineInputBorder(),
                         ),
                       ),
-                      SizedBox(height: 20),
                       TextFormField(
                         controller: _nameController,
                         decoration: const InputDecoration(labelText: 'Name'),

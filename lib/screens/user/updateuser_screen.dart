@@ -49,56 +49,59 @@ class _update_userState extends State<update_user> {
       Navigator.of(context).pushNamed('/users');
     });
   }
-  void showAlert(BuildContext context, String exitoMessage,String errorMessage){
+
+  void showAlert(
+      BuildContext context, String exitoMessage, String errorMessage) {
     showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(exitoMessage),
-        content: Text(errorMessage),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed('/users');
-            },
-            child: Text('OK'),
-          ),
-        ],
-      );
-    },
-  );
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(exitoMessage),
+          content: Text(errorMessage),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/users');
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  Future<void> updateCredentials(
-      String newEmail, String newPassword, UserLocal usr, BuildContext context) async {
+  Future<void> updateCredentials(String newEmail, String newPassword,
+      UserLocal usr, BuildContext context) async {
     User? user = await FirebaseAuth.instance.currentUser;
 
-    if (user!.uid == uid.text){
-    if (user != null) {
-
-      try {
-        await user.updateEmail(newEmail);
-        print('Email updated');
-      } catch (e) {
-        print('Error al actualizar email: $e');
-      }
-      try {
-        await user!.updatePassword(newPassword);
-        print('Password updated');
-      } catch (e) {
-        print('Error al actualizar password: $e');
-      }
-      try {
-        controller.updateUser(usr);
-        showAlert(context,'Acción realizada con éxito' ,'Credenciales actualizadas correctamente');
-      } catch (e) {
-        print('Error al actualizar info del usuario: $e');
+    if (user!.uid == uid.text) {
+      if (user != null) {
+        try {
+          await user.updateEmail(newEmail);
+          print('Email updated');
+        } catch (e) {
+          print('Error al actualizar email: $e');
+        }
+        try {
+          await user!.updatePassword(newPassword);
+          print('Password updated');
+        } catch (e) {
+          print('Error al actualizar password: $e');
+        }
+        try {
+          controller.updateUser(usr);
+          showAlert(context, 'Acción realizada con éxito',
+              'Credenciales actualizadas correctamente');
+        } catch (e) {
+          print('Error al actualizar info del usuario: $e');
+        }
+      } else {
+        print('No user signed in');
       }
     } else {
-      print('No user signed in');
-    }}
-    else{
-      showAlert(context, 'Error','No se puede actualizar información de otro usuario.');
+      showAlert(context, 'Error',
+          'No se puede actualizar información de otro usuario.');
 
       print('No se puede actualizar información de otro usuario');
     }
@@ -167,6 +170,39 @@ class _update_userState extends State<update_user> {
                         ),
                       ),
                       SizedBox(height: 20),
+                      DropdownButtonFormField<String>(
+                        value: _selectedRole,
+                        items: [
+                          DropdownMenuItem(
+                            value: 'Admin',
+                            child: Text('Admin'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'User',
+                            child: Text('User'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'Seller',
+                            child: Text('Seller'),
+                          ),
+                        ],
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedRole = newValue;
+                          });
+                          print('Valor seleccionado: $_selectedRole');
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Role',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select a role';
+                          }
+                          return null;
+                        },
+                      ),
                       TextFormField(
                         controller: _nameController,
                         decoration: const InputDecoration(labelText: 'Name'),
@@ -230,40 +266,6 @@ class _update_userState extends State<update_user> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 20),
-                      DropdownButtonFormField<String>(
-                        value: _selectedRole,
-                        items: [
-                          DropdownMenuItem(
-                            value: 'Admin',
-                            child: Text('Admin'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'User',
-                            child: Text('User'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Seller',
-                            child: Text('Seller'),
-                          ),
-                        ],
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedRole = newValue;
-                          });
-                          print('Valor seleccionado: $_selectedRole');
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Role',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select a role';
-                          }
-                          return null;
-                        },
-                      ),
                       SizedBox(
                         height: 35.0,
                       ),
@@ -282,11 +284,8 @@ class _update_userState extends State<update_user> {
                               email: _emailController.text,
                               password: _passwordController.text,
                             );
-                            updateCredentials(
-                                _emailController.text,
-                                _passwordController.text,
-                                usr,
-                                context);
+                            updateCredentials(_emailController.text,
+                                _passwordController.text, usr, context);
                             //changeScreen();
                           }
                         },

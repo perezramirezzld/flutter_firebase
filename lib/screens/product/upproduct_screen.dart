@@ -134,6 +134,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                       ),
                       TextFormField(
                         controller: _unitsController,
+                        enabled: false,
                         decoration: const InputDecoration(labelText: 'Units'),
                         keyboardType: TextInputType.number,
                         validator: (value) {
@@ -149,7 +150,6 @@ class _UpdateProductState extends State<UpdateProduct> {
                       ),
                       TextFormField(
                         controller: _costController,
-                        enabled: false,
                         decoration: const InputDecoration(labelText: 'Cost'),
                         keyboardType: TextInputType.number,
                         validator: (value) {
